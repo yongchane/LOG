@@ -66,6 +66,10 @@ export async function saveToCommunity(
       sharedAt: Timestamp.fromMillis(communityRoster.sharedAt),
     });
 
+    // 문서 ID를 roster에 저장
+    await updateDoc(docRef, { id: docRef.id });
+    communityRoster.id = docRef.id;
+
     console.log("Roster saved to Firestore with ID:", docRef.id);
     return communityRoster;
   } catch (error) {
@@ -138,21 +142,19 @@ export async function toggleLike(rosterId: string): Promise<void> {
   const userId = getUserId();
 
   try {
-    // Firestore에서 rosterId로 문서 찾기
+    // Firestore에서 rosterId로 문서 직접 참조
+    const rosterRef = doc(db, "rosters", rosterId);
     const rostersRef = collection(db, "rosters");
     const querySnapshot = await getDocs(rostersRef);
 
-    let targetDocId: string | null = null;
     let currentData: any = null;
     querySnapshot.forEach((docSnapshot) => {
-      if (docSnapshot.data().id === rosterId) {
-        targetDocId = docSnapshot.id;
+      if (docSnapshot.id === rosterId) {
         currentData = docSnapshot.data();
       }
     });
 
-    if (targetDocId && currentData) {
-      const rosterRef = doc(db, "rosters", targetDocId);
+    if (currentData) {
       const likedBy = currentData.likedBy || [];
       const hasLiked = likedBy.includes(userId);
 
@@ -171,6 +173,8 @@ export async function toggleLike(rosterId: string): Promise<void> {
         });
         console.log("Like added to Firestore");
       }
+    } else {
+      console.error("Roster not found with ID:", rosterId);
     }
   } catch (error) {
     console.error("Error toggling like in Firestore:", error);
@@ -222,29 +226,12 @@ export async function addComment(
   };
 
   try {
-    // Firestore에서 rosterId로 문서 찾기
-    const rostersRef = collection(db, "rosters");
-    const querySnapshot = await getDocs(rostersRef);
-
-    let targetDocId: string | null = null;
-    querySnapshot.forEach((docSnapshot) => {
-      const data = docSnapshot.data();
-      console.log("Checking roster:", data.id, "against", rosterId);
-      if (data.id === rosterId) {
-        targetDocId = docSnapshot.id;
-      }
+    // Firestore에서 rosterId로 문서 직접 참조
+    const rosterRef = doc(db, "rosters", rosterId);
+    await updateDoc(rosterRef, {
+      comments: arrayUnion(comment),
     });
-
-    if (targetDocId) {
-      const rosterRef = doc(db, "rosters", targetDocId);
-      await updateDoc(rosterRef, {
-        comments: arrayUnion(comment),
-      });
-      console.log("Comment added to Firestore for doc:", targetDocId);
-    } else {
-      console.error("Could not find roster with id:", rosterId);
-      throw new Error("Roster not found");
-    }
+    console.log("Comment added to Firestore for doc:", rosterId);
   } catch (error) {
     console.error("Error adding comment to Firestore:", error);
     // Fallback to local storage
