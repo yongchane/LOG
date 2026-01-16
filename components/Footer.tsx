@@ -13,18 +13,27 @@ export default function Footer() {
             <h3 className="text-lol-gold font-bold mb-3">About</h3>
             <ul className="space-y-2 text-lol-light text-sm">
               <li>
-                <Link href="/about" className="hover:text-lol-gold transition-colors">
+                <Link
+                  href="/about"
+                  className="hover:text-lol-gold transition-colors"
+                >
                   About League of Gacha
                 </Link>
               </li>
               <li>
-                <Link href="/community" className="hover:text-lol-gold transition-colors">
-                  Community
+                <Link
+                  href="/community"
+                  className="hover:text-lol-gold transition-colors"
+                >
+                  로스터 자랑
                 </Link>
               </li>
               <li>
-                <Link href="/my-page" className="hover:text-lol-gold transition-colors">
-                  My Stats
+                <Link
+                  href="/my-page"
+                  className="hover:text-lol-gold transition-colors"
+                >
+                  내 전적
                 </Link>
               </li>
             </ul>
@@ -35,12 +44,18 @@ export default function Footer() {
             <h3 className="text-lol-gold font-bold mb-3">Legal</h3>
             <ul className="space-y-2 text-lol-light text-sm">
               <li>
-                <Link href="/privacy" className="hover:text-lol-gold transition-colors">
+                <Link
+                  href="/privacy"
+                  className="hover:text-lol-gold transition-colors"
+                >
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="hover:text-lol-gold transition-colors">
+                <Link
+                  href="/terms"
+                  className="hover:text-lol-gold transition-colors"
+                >
                   Terms of Service
                 </Link>
               </li>
@@ -85,10 +100,12 @@ export default function Footer() {
             LEC, Worlds, and MSI (2013-2024)
           </p>
           <p className="text-lol-light/70 text-xs">
-            © {currentYear} League of Gacha. This is an unofficial fan-made project and is not affiliated with Riot Games, Inc.
+            © {currentYear} League of Gacha. This is an unofficial fan-made
+            project and is not affiliated with Riot Games, Inc.
           </p>
           <p className="text-lol-light/70 text-xs">
-            League of Legends and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
+            League of Legends and all associated properties are trademarks or
+            registered trademarks of Riot Games, Inc.
           </p>
         </div>
       </div>
