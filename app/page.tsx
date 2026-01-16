@@ -216,7 +216,7 @@ export default function Home() {
   );
 
   return (
-    <div className="min-h-screen hextech-bg hexagon-pattern mb-20">
+    <div className="h-auto hextech-bg hexagon-pattern mb-20 md:mb-0">
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-12">
         {/* Title Section */}

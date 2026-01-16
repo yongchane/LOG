@@ -13,6 +13,7 @@ import {
   CommunityRoster,
 } from "@/lib/community-storage";
 import { Player, Position } from "@/types";
+import AdSidebar from "@/components/AdSidebar";
 
 const POSITIONS: Position[] = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
 
@@ -99,6 +100,9 @@ export default function CommunityPage() {
 
   return (
     <div className="min-h-screen hextech-bg hexagon-pattern">
+      {/* Sidebar Ad */}
+      {/* <AdSidebar /> */}
+
       {/* Header */}
       <header className="border-b border-lol-gold/30 bg-lol-dark-accent/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between">
