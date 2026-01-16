@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LoL Roster Gacha - Build Your Dream Team",
+  title: "League of Gacha - Build Your Dream Team",
   description:
     "Create your ultimate League of Legends roster with legendary players from 2013-2025",
 };

@@ -29,20 +29,20 @@ export default function CommunityPage() {
     if (stored) setUserName(stored);
   }, []);
 
-  const loadData = () => {
-    const data = getCommunityRosters();
+  const loadData = async () => {
+    const data = await getCommunityRosters();
     setRosters(data);
   };
 
-  const handleLike = (rosterId: string) => {
-    addLike(rosterId);
+  const handleLike = async (rosterId: string) => {
+    await addLike(rosterId);
     loadData();
   };
 
-  const handleComment = (rosterId: string) => {
+  const handleComment = async (rosterId: string) => {
     if (!commentInput.trim() || !userName.trim()) return;
 
-    addComment(rosterId, userName, commentInput);
+    await addComment(rosterId, userName, commentInput);
     setCommentInput("");
     loadData();
 
@@ -231,9 +231,9 @@ export default function CommunityPage() {
 
                     {roster.comments.length > 0 && (
                       <div className="space-y-2 mb-3 max-h-40 overflow-y-auto">
-                        {roster.comments.map((comment, idx) => (
+                        {roster.comments.map((comment) => (
                           <div
-                            key={idx}
+                            key={comment.id}
                             className="bg-lol-dark-lighter p-2 rounded"
                           >
                             <span className="text-lol-gold text-sm font-bold">

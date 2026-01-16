@@ -54,7 +54,7 @@ export default function PlayerCard({
   return (
     <div className="relative w-full aspect-[3/4]">
       {/* Championship indicator - outside card for no clipping */}
-      {player.isWinner && player.championshipLeague && (
+      {player.isWinner && player.championshipLeague === "WORLDS" && (
         <div className="absolute -top-3 -right-3 z-20">
           <div className="relative group">
             {/* Glow effect */}

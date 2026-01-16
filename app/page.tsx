@@ -15,6 +15,7 @@ import {
   getUserName,
   saveUserName,
 } from "@/lib/community-storage";
+import { recordGameResult } from "@/lib/my-page-storage";
 
 const POSITIONS: Position[] = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
 
@@ -36,6 +37,7 @@ export default function Home() {
   const [isCommunityModalOpen, setIsCommunityModalOpen] = useState(false);
   const [communityUserName, setCommunityUserName] = useState("");
   const [communityMessage, setCommunityMessage] = useState("");
+  const [gameResultMessage, setGameResultMessage] = useState("");
 
   // Load saved username on mount
   useEffect(() => {
@@ -175,7 +177,7 @@ export default function Home() {
     setCommunityMessage("");
   };
 
-  const handlePostToCommunity = () => {
+  const handlePostToCommunity = async () => {
     if (!communityUserName.trim()) {
       setCommunityMessage("✗ Please enter your name");
       return;
@@ -187,7 +189,7 @@ export default function Home() {
     }
 
     // Save to community
-    saveToCommunity(roster, communityUserName);
+    await saveToCommunity(roster, communityUserName);
     saveUserName(communityUserName);
 
     setCommunityMessage("✓ Posted to community!");
@@ -195,6 +197,19 @@ export default function Home() {
       setIsCommunityModalOpen(false);
       setCommunityMessage("");
     }, 1500);
+  };
+
+  const handleRecordGameResult = (result: "win" | "loss") => {
+    if (!roster.id) {
+      setRoster((prev) => ({ ...prev, id: Date.now().toString() }));
+    }
+
+    recordGameResult(roster, result);
+
+    const message =
+      result === "win" ? "✓ Victory recorded!" : "✓ Defeat recorded!";
+    setGameResultMessage(message);
+    setTimeout(() => setGameResultMessage(""), 3000);
   };
 
   const isRosterComplete = POSITIONS.every(
@@ -216,13 +231,15 @@ export default function Home() {
               <h1 className="text-2xl font-bold text-lol-gold">
                 League of Gacha
               </h1>
-              <p className="text-lol-light text-sm">
-                Summon your legendary team
-              </p>
             </div>
           </motion.div>
 
           <div className="flex gap-4">
+            <Link href="/my-page">
+              <button className="px-4 py-2 rounded-lg bg-lol-dark-lighter border border-lol-gold/30 text-lol-light hover:text-lol-gold hover:border-lol-gold/60 transition-all">
+                My Stats
+              </button>
+            </Link>
             <Link href="/community">
               <button className="px-4 py-2 rounded-lg bg-lol-dark-lighter border border-lol-gold/30 text-lol-light hover:text-lol-gold hover:border-lol-gold/60 transition-all">
                 Community
@@ -251,10 +268,6 @@ export default function Home() {
           <h2 className="text-4xl font-bold text-white mb-4">
             Build Your Dream Team
           </h2>
-          <p className="text-lol-light text-lg">
-            Summon random pro players and see if you can create a championship
-            roster!
-          </p>
         </motion.div>
 
         {/* Roster Grid */}
@@ -356,6 +369,34 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
+            {/* Game Result Buttons */}
+            <div className="flex flex-wrap justify-center gap-4 mb-2">
+              <button
+                onClick={() => handleRecordGameResult("win")}
+                className="px-8 py-3 rounded-lg font-bold text-white bg-green-600 hover:bg-green-700 transition-all transform hover:scale-105"
+              >
+                ✓ Record Victory
+              </button>
+
+              <button
+                onClick={() => handleRecordGameResult("loss")}
+                className="px-8 py-3 rounded-lg font-bold text-white bg-red-600 hover:bg-red-700 transition-all transform hover:scale-105"
+              >
+                ✗ Record Defeat
+              </button>
+            </div>
+
+            {gameResultMessage && (
+              <motion.div
+                className="text-sm font-bold text-green-400"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                {gameResultMessage}
+              </motion.div>
+            )}
+
             <div className="flex flex-wrap justify-center gap-4">
               <button
                 onClick={handleShareRoster}
@@ -477,13 +518,8 @@ export default function Home() {
       </AnimatePresence>
 
       {/* Footer */}
-      <footer className="mt-20 border-t border-lol-gold/30 bg-lol-dark-accent/80 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 py-8 text-center text-lol-light text-sm">
-          <p>
-            Made with ⚡ by League of Legends fans | Data includes LCK, LPL,
-            LEC, Worlds, and MSI (2020-2024)
-          </p>
-        </div>
+      <footer className="fixed bottom-0 left-0 right-0 mt-20 border-t border-lol-gold/30 bg-lol-dark-accent/80 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 py-8 text-center text-lol-light text-sm"></div>
       </footer>
     </div>
   );
