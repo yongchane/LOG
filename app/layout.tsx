@@ -47,21 +47,21 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://lol-roster-gacha.pages.dev"),
+  metadataBase: new URL("https://league-of-gacha.pages.dev/"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
     locale: "ko_KR",
-    url: "https://lol-roster-gacha.pages.dev",
+    url: "https://league-of-gacha.pages.dev/",
     title: "League of Gacha - Build Your Dream LoL Team",
     description:
       "Create your ultimate League of Legends roster with legendary players from 2013-2025. Collect champions, build dream teams, and share with the community.",
     siteName: "League of Gacha",
     images: [
       {
-        url: "/opengraph_IMG.jpg",
+        url: "https://league-of-gacha.pages.dev/opengraph_IMG.jpg",
         width: 1200,
         height: 630,
         alt: "League of Gacha - Build Your Dream Team",
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
     title: "League of Gacha - Build Your Dream LoL Team",
     description:
       "Create your ultimate League of Legends roster with legendary players from 2013-2025.",
-    images: ["/opengraph_IMG.jpg"],
+    images: ["https://league-of-gacha.pages.dev/opengraph_IMG.jpg"],
     creator: "@leagueofgacha",
   },
   robots: {

@@ -3,7 +3,7 @@ import { MetadataRoute } from "next";
 export const dynamic = "force-static";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = "https://lol-roster-gacha.pages.dev";
+  const baseUrl = "https://league-of-gacha.pages.dev/";
 
   return {
     rules: [
