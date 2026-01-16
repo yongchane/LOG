@@ -18,10 +18,14 @@ export default function GachaModal({
   onConfirm,
   onCancel,
 }: GachaModalProps) {
-  const [stage, setStage] = useState<"loading" | "reveal" | "show">("loading");
+  const [stage, setStage] = useState<
+    "loading" | "nationality" | "league" | "reveal" | "show"
+  >("loading");
   const [displayPlayer, setDisplayPlayer] = useState<Player | null>(null);
   const prevPlayerIdRef = useRef<string | null>(null);
   const t = getTranslations(getLanguage());
+  const isWorldsWinner =
+    player?.isWinner && player?.championshipLeague === "WORLDS";
 
   useEffect(() => {
     if (isOpen && player) {
@@ -34,19 +38,37 @@ export default function GachaModal({
         prevPlayerIdRef.current = player.id;
       }
 
-      // FIFA-style reveal sequence
-      const timer1 = setTimeout(() => setStage("reveal"), 1600);
-      const timer2 = setTimeout(() => {
-        setStage("show");
-        setDisplayPlayer(player);
-      }, 2600);
+      // Special FIFA-style reveal sequence for Worlds winners (1.6x slower for better viewing)
+      if (isWorldsWinner) {
+        const timer1 = setTimeout(() => setStage("nationality"), 2560);
+        const timer2 = setTimeout(() => setStage("league"), 3840);
+        const timer3 = setTimeout(() => setStage("reveal"), 5120);
+        const timer4 = setTimeout(() => {
+          setStage("show");
+          setDisplayPlayer(player);
+        }, 6720);
 
-      return () => {
-        clearTimeout(timer1);
-        clearTimeout(timer2);
-      };
+        return () => {
+          clearTimeout(timer1);
+          clearTimeout(timer2);
+          clearTimeout(timer3);
+          clearTimeout(timer4);
+        };
+      } else {
+        // Normal reveal sequence
+        const timer1 = setTimeout(() => setStage("reveal"), 1600);
+        const timer2 = setTimeout(() => {
+          setStage("show");
+          setDisplayPlayer(player);
+        }, 2600);
+
+        return () => {
+          clearTimeout(timer1);
+          clearTimeout(timer2);
+        };
+      }
     }
-  }, [isOpen, player]);
+  }, [isOpen, player, isWorldsWinner]);
 
   if (!isOpen || !player) return null;
 
@@ -202,6 +224,164 @@ export default function GachaModal({
             </motion.div>
           )}
 
+          {/* Nationality Stage - FIFA style (Worlds winners only) */}
+          {stage === "nationality" && (
+            <motion.div
+              className="flex flex-col items-center justify-center gap-8"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.2 }}
+            >
+              {/* Golden particle effects */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                {[...Array(30)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute w-2 h-2 bg-yellow-400 rounded-full"
+                    style={{
+                      left: `${Math.random() * 100}%`,
+                      top: `${Math.random() * 100}%`,
+                    }}
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{
+                      scale: [0, 1.5, 0],
+                      opacity: [0, 1, 0],
+                      y: [0, -100],
+                    }}
+                    transition={{
+                      duration: 2,
+                      delay: i * 0.05,
+                      ease: "easeOut",
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Giant flag */}
+              <motion.div
+                className="text-[200px] leading-none"
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 15,
+                }}
+              >
+                {getFlagEmoji(player.iso)}
+              </motion.div>
+
+              {/* Nationality text */}
+              <motion.div
+                className="text-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <div className="text-4xl font-bold text-white mb-2">
+                  {player.nationality}
+                </div>
+                <div className="text-lol-gold text-xl">국적</div>
+              </motion.div>
+
+              {/* Golden glow effect */}
+              <div className="absolute inset-0 bg-gradient-radial from-yellow-400/20 via-transparent to-transparent blur-3xl pointer-events-none" />
+            </motion.div>
+          )}
+
+          {/* League Stage - FIFA style (Worlds winners only) */}
+          {stage === "league" && (
+            <motion.div
+              className="flex flex-col items-center justify-center gap-8"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.2 }}
+            >
+              {/* Golden rays */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                {[...Array(8)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute top-1/2 left-1/2 w-2 h-full bg-gradient-to-b from-yellow-400/60 to-transparent origin-top"
+                    style={{
+                      transform: `rotate(${i * 45}deg)`,
+                    }}
+                    initial={{ scaleY: 0, opacity: 0 }}
+                    animate={{ scaleY: 1, opacity: [0, 1, 0] }}
+                    transition={{
+                      duration: 0.8,
+                      delay: i * 0.1,
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Worlds Trophy */}
+              <motion.div
+                className="relative"
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 15,
+                }}
+              >
+                {/* Glow */}
+                <div className="absolute inset-0 bg-yellow-400 rounded-full blur-3xl opacity-60 animate-pulse" />
+
+                {/* Trophy */}
+                <img
+                  src="/worlds.svg"
+                  alt="Worlds Trophy"
+                  className="relative h-40 w-40"
+                />
+              </motion.div>
+
+              {/* Championship text */}
+              <motion.div
+                className="text-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <div className="text-5xl font-bold bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-200 bg-clip-text text-transparent mb-2">
+                  WORLDS
+                </div>
+                <div className="text-2xl font-bold text-white">
+                  {player.championshipYear || player.year} Champion
+                </div>
+              </motion.div>
+
+              {/* Sparkles */}
+              <div className="absolute inset-0 pointer-events-none">
+                {[...Array(20)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute text-3xl"
+                    style={{
+                      left: `${Math.random() * 100}%`,
+                      top: `${Math.random() * 100}%`,
+                    }}
+                    initial={{ scale: 0, opacity: 0, rotate: 0 }}
+                    animate={{
+                      scale: [0, 1, 0],
+                      opacity: [0, 1, 0],
+                      rotate: [0, 360],
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      delay: i * 0.08,
+                      ease: "easeOut",
+                    }}
+                  >
+                    ✨
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
           {/* Reveal Stage - Card flip */}
           {stage === "reveal" && (
             <motion.div
@@ -211,13 +391,27 @@ export default function GachaModal({
               transition={{ duration: 0.8, ease: "easeInOut" }}
             >
               <div
-                className="w-full aspect-[3/4] rounded-lg"
+                className="w-full aspect-[3/4] rounded-lg flex items-center justify-center"
                 style={{
                   background:
                     "linear-gradient(135deg, #C89B3C 0%, #937341 100%)",
                   boxShadow: "0 0 40px rgba(200, 155, 60, 0.6)",
                 }}
-              />
+              >
+                {/* League icon on card back */}
+                {player.region && (
+                  <motion.img
+                    src={`/${player.region.toLowerCase()}.${
+                      player.region === "LEC" ? "webp" : "svg"
+                    }`}
+                    alt={`${player.region} Logo`}
+                    className="w-32 h-32 opacity-80"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 0.8, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                )}
+              </div>
             </motion.div>
           )}
 
@@ -232,29 +426,77 @@ export default function GachaModal({
                 damping: 20,
               }}
             >
-              {/* Sparkle effects */}
+              {/* Enhanced sparkle effects for Worlds winners */}
               <div className="absolute inset-0 pointer-events-none">
-                {[...Array(12)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="absolute w-1 h-1 bg-lol-gold rounded-full"
-                    style={{
-                      left: `${Math.random() * 100}%`,
-                      top: `${Math.random() * 100}%`,
-                    }}
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{
-                      scale: [0, 1, 0],
-                      opacity: [0, 1, 0],
-                    }}
-                    transition={{
-                      duration: 1,
-                      delay: i * 0.1,
-                      repeat: Infinity,
-                      repeatDelay: 1,
-                    }}
-                  />
-                ))}
+                {isWorldsWinner ? (
+                  <>
+                    {/* More particles for Worlds winners */}
+                    {[...Array(30)].map((_, i) => (
+                      <motion.div
+                        key={`sparkle-${i}`}
+                        className="absolute w-2 h-2 bg-yellow-400 rounded-full"
+                        style={{
+                          left: `${Math.random() * 100}%`,
+                          top: `${Math.random() * 100}%`,
+                        }}
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{
+                          scale: [0, 1.5, 0],
+                          opacity: [0, 1, 0],
+                        }}
+                        transition={{
+                          duration: 2,
+                          delay: i * 0.1,
+                          repeat: Infinity,
+                          repeatDelay: 2,
+                        }}
+                      />
+                    ))}
+                    {/* Golden rays animation */}
+                    {[...Array(6)].map((_, i) => (
+                      <motion.div
+                        key={`ray-${i}`}
+                        className="absolute top-1/2 left-1/2 w-1 h-full bg-gradient-to-b from-yellow-400/30 to-transparent origin-top"
+                        style={{
+                          transform: `rotate(${i * 60}deg)`,
+                        }}
+                        animate={{
+                          opacity: [0.3, 0.6, 0.3],
+                          scaleY: [0.8, 1, 0.8],
+                        }}
+                        transition={{
+                          duration: 3,
+                          delay: i * 0.2,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  /* Normal sparkles for regular players */
+                  [...Array(12)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute w-1 h-1 bg-lol-gold rounded-full"
+                      style={{
+                        left: `${Math.random() * 100}%`,
+                        top: `${Math.random() * 100}%`,
+                      }}
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{
+                        scale: [0, 1, 0],
+                        opacity: [0, 1, 0],
+                      }}
+                      transition={{
+                        duration: 1,
+                        delay: i * 0.1,
+                        repeat: Infinity,
+                        repeatDelay: 1,
+                      }}
+                    />
+                  ))
+                )}
               </div>
 
               {/* Player Card Container with overflow visible for badge */}

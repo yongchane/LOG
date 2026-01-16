@@ -20,7 +20,7 @@ export default function Navigation() {
                 className="flex items-center gap-2 sm:gap-3 cursor-pointer"
               >
                 <img
-                  src="/lol.webp"
+                  src="/log.png"
                   alt="LOL Logo"
                   className="h-6 w-6 sm:h-8 sm:w-8"
                 />
@@ -36,12 +36,12 @@ export default function Navigation() {
             <div className="hidden md:flex gap-4">
               <Link href="/my-page">
                 <button className="px-4 py-2 rounded-lg bg-lol-dark-lighter border border-lol-gold/30 text-lol-light hover:text-lol-gold hover:border-lol-gold/60 transition-all">
-                  My Stats
+                  내 전적
                 </button>
               </Link>
               <Link href="/community">
                 <button className="px-4 py-2 rounded-lg bg-lol-dark-lighter border border-lol-gold/30 text-lol-light hover:text-lol-gold hover:border-lol-gold/60 transition-all">
-                  Community
+                  로스터 자랑
                 </button>
               </Link>
             </div>
