@@ -7,12 +7,15 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Lighthouse](https://img.shields.io/badge/Lighthouse-75%2F100-orange?style=for-the-badge&logo=lighthouse)](https://league-of-gacha.pages.dev)
 
+
 **🎮 Build Your Dream League of Legends Team | 롤 프로게이머 가챠 게임**
 
 [English](#english) | [한국어](#korean)
 
 ![League of Gacha Demo](https://img.shields.io/badge/200%2B_Pro_Players-Faker_Deft_Rookie-gold?style=for-the-badge)
 ![Tournaments](https://img.shields.io/badge/2013--2025-LCK_LPL_Worlds_MSI-red?style=for-the-badge)
+
+![Image](https://github.com/user-attachments/assets/6abd113a-3f95-4113-8b2b-2371c82ad249)
 
 </div>
 
