@@ -325,6 +325,8 @@ export default function Home() {
                   src="/select.svg"
                   alt="Select All"
                   className="inline h-6 w-6 mr-2"
+                  loading="eager"
+                  fetchPriority="high"
                 />
                 Select All Players
               </button>
