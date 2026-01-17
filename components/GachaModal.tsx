@@ -46,7 +46,7 @@ export default function GachaModal({
         const timer4 = setTimeout(() => {
           setStage("show");
           setDisplayPlayer(player);
-        }, 6720);
+        }, 6720);  
 
         return () => {
           clearTimeout(timer1);
@@ -60,7 +60,7 @@ export default function GachaModal({
         const timer2 = setTimeout(() => {
           setStage("show");
           setDisplayPlayer(player);
-        }, 2600);
+        }, 2600);  // 2600 → 3200 (600ms 증가)
 
         return () => {
           clearTimeout(timer1);
@@ -375,7 +375,7 @@ export default function GachaModal({
                 key="reveal"
                 className="perspective-1000 preserve-3d"
                 initial={{ rotateY: 0 }}
-                animate={{ rotateY: 180 }}
+                animate={{ rotateY: 360 }}
                 transition={{ duration: 0.8, ease: "easeInOut" }}
               >
               <div
