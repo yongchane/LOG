@@ -90,14 +90,16 @@ export default function GachaModal({
 
         {/* Modal Content */}
         <div className="relative z-10 w-full max-w-md mx-4">
-          {/* Loading Stage - LOL Queue style */}
-          {stage === "loading" && (
-            <motion.div
-              className="flex flex-col items-center justify-center gap-6"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 1.2, opacity: 0 }}
-            >
+          <AnimatePresence mode="wait">
+            {/* Loading Stage - LOL Queue style */}
+            {stage === "loading" && (
+              <motion.div
+                key="loading"
+                className="flex flex-col items-center justify-center gap-6"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 1.2, opacity: 0 }}
+              >
               {/* Circular Loading Container */}
               <div className="relative w-80 h-80 flex items-center justify-center">
                 {/* Outer golden frame */}
@@ -222,16 +224,17 @@ export default function GachaModal({
                 </div>
               </motion.div> */}
             </motion.div>
-          )}
+            )}
 
-          {/* Nationality Stage - FIFA style (Worlds winners only) */}
-          {stage === "nationality" && (
-            <motion.div
-              className="flex flex-col items-center justify-center gap-8"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.2 }}
-            >
+            {/* Nationality Stage - FIFA style (Worlds winners only) */}
+            {stage === "nationality" && (
+              <motion.div
+                key="nationality"
+                className="flex flex-col items-center justify-center gap-8"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.2 }}
+              >
               {/* Golden particle effects */}
               <div className="absolute inset-0 pointer-events-none overflow-hidden">
                 {[...Array(30)].map((_, i) => (
@@ -287,34 +290,18 @@ export default function GachaModal({
               {/* Golden glow effect */}
               <div className="absolute inset-0 bg-gradient-radial from-yellow-400/20 via-transparent to-transparent blur-3xl pointer-events-none" />
             </motion.div>
-          )}
+            )}
 
-          {/* League Stage - FIFA style (Worlds winners only) */}
-          {stage === "league" && (
-            <motion.div
-              className="flex flex-col items-center justify-center gap-8"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.2 }}
-            >
-              {/* Golden rays */}
-              <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                {[...Array(8)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="absolute top-1/2 left-1/2 w-2 h-full bg-gradient-to-b from-yellow-400/60 to-transparent origin-top"
-                    style={{
-                      transform: `rotate(${i * 45}deg)`,
-                    }}
-                    initial={{ scaleY: 0, opacity: 0 }}
-                    animate={{ scaleY: 1, opacity: [0, 1, 0] }}
-                    transition={{
-                      duration: 0.8,
-                      delay: i * 0.1,
-                    }}
-                  />
-                ))}
-              </div>
+            {/* League Stage - FIFA style (Worlds winners only) */}
+            {stage === "league" && (
+              <motion.div
+                key="league"
+                className="flex flex-col items-center justify-center gap-8"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.2 }}
+              >
+              {/* Golden rays removed - was causing visual bug */}
 
               {/* Worlds Trophy */}
               <motion.div
@@ -380,18 +367,19 @@ export default function GachaModal({
                 ))}
               </div>
             </motion.div>
-          )}
+            )}
 
-          {/* Reveal Stage - Card flip */}
-          {stage === "reveal" && (
-            <motion.div
-              className="perspective-1000"
-              initial={{ rotateY: 0 }}
-              animate={{ rotateY: 360 }}
-              transition={{ duration: 0.8, ease: "easeInOut" }}
-            >
+            {/* Reveal Stage - Card flip */}
+            {stage === "reveal" && (
+              <motion.div
+                key="reveal"
+                className="perspective-1000 preserve-3d"
+                initial={{ rotateY: 0 }}
+                animate={{ rotateY: 180 }}
+                transition={{ duration: 0.8, ease: "easeInOut" }}
+              >
               <div
-                className="w-full aspect-[3/4] rounded-lg flex items-center justify-center"
+                className="w-full aspect-[3/4] rounded-lg flex items-center justify-center backface-hidden"
                 style={{
                   background:
                     "linear-gradient(135deg, #C89B3C 0%, #937341 100%)",
@@ -413,20 +401,23 @@ export default function GachaModal({
                 )}
               </div>
             </motion.div>
-          )}
+            )}
 
-          {/* Show Stage - Full card reveal */}
-          {stage === "show" && displayPlayer && (
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0, y: 50 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              transition={{
-                type: "spring",
-                stiffness: 200,
-                damping: 20,
-              }}
-            >
-              {/* Enhanced sparkle effects for Worlds winners */}
+            {/* Show Stage - Full card reveal */}
+            {stage === "show" && displayPlayer && (
+              <motion.div
+                key="show"
+                initial={{ scale: 0.8, opacity: 0, y: 50 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 20,
+                }}
+              >
+              {/* Golden rays removed - was causing visual bug */}
+
+              {/* Sparkle effects layer (in front of card) */}
               <div className="absolute inset-0 pointer-events-none">
                 {isWorldsWinner ? (
                   <>
@@ -449,26 +440,6 @@ export default function GachaModal({
                           delay: i * 0.1,
                           repeat: Infinity,
                           repeatDelay: 2,
-                        }}
-                      />
-                    ))}
-                    {/* Golden rays animation */}
-                    {[...Array(6)].map((_, i) => (
-                      <motion.div
-                        key={`ray-${i}`}
-                        className="absolute top-1/2 left-1/2 w-1 h-full bg-gradient-to-b from-yellow-400/30 to-transparent origin-top"
-                        style={{
-                          transform: `rotate(${i * 60}deg)`,
-                        }}
-                        animate={{
-                          opacity: [0.3, 0.6, 0.3],
-                          scaleY: [0.8, 1, 0.8],
-                        }}
-                        transition={{
-                          duration: 3,
-                          delay: i * 0.2,
-                          repeat: Infinity,
-                          ease: "easeInOut",
                         }}
                       />
                     ))}
@@ -715,7 +686,8 @@ export default function GachaModal({
                 </button>
               </motion.div>
             </motion.div>
-          )}
+            )}
+          </AnimatePresence>
         </div>
       </motion.div>
     </AnimatePresence>
