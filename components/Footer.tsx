@@ -68,7 +68,7 @@ export default function Footer() {
             <ul className="space-y-2 text-lol-light text-sm">
               <li>
                 <a
-                  href="https://github.com"
+                  href="https://github.com/yongchane/LOG"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-lol-gold transition-colors"
