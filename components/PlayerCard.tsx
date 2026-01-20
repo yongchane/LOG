@@ -84,7 +84,7 @@ export default function PlayerCard({
             >
               {t.championshipWinner(
                 player.championshipYear || player.year,
-                player.championshipLeague
+                player.championshipLeague,
               )}
             </div>
           </div>

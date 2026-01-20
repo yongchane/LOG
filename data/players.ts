@@ -777,6 +777,8 @@ const PLAYERS_DATA: Record<Position, Player[]> = {
       nationality: "South Korea",
       iso: "kr",
       isWinner: true,
+      championshipLeague: "WORLDS",
+      championshipYear: 2023,
     },
     {
       id: "keria_2024",
@@ -791,6 +793,8 @@ const PLAYERS_DATA: Record<Position, Player[]> = {
       nationality: "South Korea",
       iso: "kr",
       isWinner: true,
+      championshipLeague: "WORLDS",
+      championshipYear: 2024,
     },
 
     // Gen.G

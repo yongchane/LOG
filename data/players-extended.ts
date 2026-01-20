@@ -1801,7 +1801,7 @@ export const EXTENDED_PLAYERS: Player[] = [
   {
     id: "hope_2022",
     name: "Hope",
-    realName: "Park Jun-gi",
+    realName: "Wang Jie",
     position: "ADC",
     year: 2022,
     teamShort: "JDG",
@@ -2090,6 +2090,24 @@ export const EXTENDED_PLAYERS: Player[] = [
     isWinner: true,
     championshipLeague: "WORLDS",
     championshipYear: 2020,
+  },
+
+  // DRX
+  {
+    id: "beryl_2022",
+    name: "BeryL",
+    realName: "조건희",
+    position: "SUPPORT",
+    year: 2022,
+    teamShort: "DRX",
+    teamFull: "DRX",
+    teamColor: "#4169E1",
+    region: "LCK",
+    nationality: "South Korea",
+    iso: "kr",
+    isWinner: true,
+    championshipLeague: "WORLDS",
+    championshipYear: 2022,
   },
 
   // LPL
