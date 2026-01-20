@@ -16,7 +16,7 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
           description:
             data.description ||
             "Build your dream League of Legends roster with pro players",
-          url: data.url || "https://league-of-gacha.pages.dev",
+          url: data.url || "https://leagueofgacha.com",
           applicationCategory: "GameApplication",
           operatingSystem: "Web Browser",
           offers: {
@@ -36,11 +36,11 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
           "@context": "https://schema.org",
           "@type": "WebSite",
           name: "League of Gacha",
-          url: "https://league-of-gacha.pages.dev",
+          url: "https://leagueofgacha.com",
           potentialAction: {
             "@type": "SearchAction",
             target:
-              "https://league-of-gacha.pages.dev/search?q={search_term_string}",
+              "https://leagueofgacha.com/search?q={search_term_string}",
             "query-input": "required name=search_term_string",
           },
         };
@@ -50,8 +50,8 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
           "@context": "https://schema.org",
           "@type": "Organization",
           name: "League of Gacha",
-          url: "https://league-of-gacha.pages.dev",
-          logo: "https://league-of-gacha.pages.dev/log.png",
+          url: "https://leagueofgacha.com",
+          logo: "https://leagueofgacha.com/log.png",
           sameAs: ["https://twitter.com/leagueofgacha"],
         };
 
@@ -63,7 +63,7 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
           description:
             data.description ||
             "Free online gacha game where you summon real League of Legends pro players from 2013-2025 to build your dream esports team. Features 200+ players from LCK, LPL, LEC, Worlds, and MSI.",
-          url: data.url || "https://league-of-gacha.pages.dev",
+          url: data.url || "https://leagueofgacha.com",
           genre: ["Gacha Game", "Sports Game", "Team Builder", "Fantasy Game"],
           gamePlatform: "Web Browser",
           applicationCategory: "Game",
@@ -89,7 +89,7 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
             audienceType: "League of Legends esports fans",
           },
           keywords:
-            "League of Legends gacha, LOL pro players, esports team builder, LCK players, LPL players, Worlds champions, gacha game, fantasy roster, Faker, Deft, Rookie",
+            "League of Gacha, Loga, 로가, 로그, 리그오브가챠, 리그 오브 가챠, League of Legends gacha, 롤 가챠, LOL pro players, esports team builder, LCK players, LPL players, Worlds champions, gacha game, fantasy roster, Faker, Deft, Rookie",
         };
 
       default:

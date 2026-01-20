@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "My Page - League of Gacha",
     description: "Track your game history and championship wins",
-    url: "https://league-of-gacha.pages.dev/my-page",
+    url: "https://leagueofgacha.com/my-page",
   },
 };
 

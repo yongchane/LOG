@@ -3,7 +3,7 @@ export const dynamic = "force-static";
 export const revalidate = false;
 
 export async function GET() {
-  const baseUrl = "https://league-of-gacha.pages.dev";
+  const baseUrl = "https://leagueofgacha.com";
   const buildDate = new Date().toUTCString();
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>

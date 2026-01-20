@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     title: "About League of Gacha",
     description:
       "Learn about League of Gacha - the ultimate LoL pro player roster builder",
-    url: "https://league-of-gacha.pages.dev/about",
+    url: "https://leagueofgacha.com/about",
   },
 };
 
