@@ -1465,6 +1465,8 @@ export const EXTENDED_PLAYERS: Player[] = [
     nationality: "South Korea",
     iso: "kr",
     isWinner: true,
+    championshipLeague: "WORLDS",
+    championshipYear: 2023,
   },
   {
     id: "gumayusi_2024",
@@ -1479,6 +1481,8 @@ export const EXTENDED_PLAYERS: Player[] = [
     nationality: "South Korea",
     iso: "kr",
     isWinner: true,
+    championshipLeague: "WORLDS",
+    championshipYear: 2024,
   },
 
   // Samsung
@@ -1968,6 +1972,8 @@ export const EXTENDED_PLAYERS: Player[] = [
     nationality: "South Korea",
     iso: "kr",
     isWinner: true,
+    championshipLeague: "WORLDS",
+    championshipYear: 2023,
   },
   {
     id: "keria_2024",
@@ -1982,6 +1988,8 @@ export const EXTENDED_PLAYERS: Player[] = [
     nationality: "South Korea",
     iso: "kr",
     isWinner: true,
+    championshipLeague: "WORLDS",
+    championshipYear: 2024,
   },
 
   // Samsung
