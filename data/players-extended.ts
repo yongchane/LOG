@@ -1012,9 +1012,9 @@ export const EXTENDED_PLAYERS: Player[] = [
 
   // Samsung
   {
-    id: "dade_2014",
-    name: "dade",
-    realName: "배어진",
+    id: "Pawn_2014",
+    name: "Pawn",
+    realName: "허원석",
     position: "MID",
     year: 2014,
     teamShort: "SSW",

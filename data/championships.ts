@@ -17,7 +17,7 @@ const CHAMPIONSHIPS: ChampionshipRoster[] = [
     year: 2014,
     type: "winner",
     team: "SSW",
-    players: ["Looper", "DanDy", "dade", "imp", "Mata"],
+    players: ["Looper", "DanDy", "Pawn", "imp", "Mata"],
   },
   {
     id: "worlds_2015_winner",
@@ -562,7 +562,7 @@ export default CHAMPIONSHIPS;
 export const checkChampionship = (
   playerNames: string[],
   team: string,
-  year: number
+  year: number,
 ): ChampionshipRoster | null => {
   // 5명의 선수 이름을 정렬해서 비교
   const sortedNames = [...playerNames].sort();
