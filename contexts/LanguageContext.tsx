@@ -32,7 +32,7 @@ const translations = {
     // Main Page
     mainTitle: "Build Your Dream LoL Team",
     mainDescription:
-      "Perfect for LOL esports fans aged 18-35! Summon legendary League of Legends pro players from 2013-2025 and create your ultimate championship roster in just 5 minutes. Enjoy during your break or after work with this free gacha-style team builder featuring Faker, Deft, Rookie, and 200+ professional players from LCK, LPL, LEC, Worlds, and MSI tournaments.",
+      "Perfect for LOL esports fans aged 18-35! Summon legendary League of Legends pro players from 2013-2026 and create your ultimate championship roster in just 5 minutes. Enjoy during your break or after work with this free gacha-style team builder featuring Faker, Deft, Rookie, and 200+ professional players from LCK, LPL, LEC, Worlds, and MSI tournaments.",
 
     // Buttons
     selectOne: "Select One Player",
@@ -90,7 +90,7 @@ const translations = {
     // Main Page
     mainTitle: "롤 프로게이머 가챠 게임 - 드림팀 만들기",
     mainDescription:
-      "롤 프로게이머 랜덤 가챠로 나만의 드림팀을 구성하세요! 페이커, 데프트, 루키 등 2013-2025년 LCK, LPL, 월즈 챔피언 200명 이상의 선수를 뽑아 최강 로스터를 만들 수 있습니다. 무료 롤 가챠 게임으로 5분 만에 리그오브레전드 올스타 팀을 완성하세요. 18-35세 롤 e스포츠 팬들에게 완벽한 게임입니다.",
+      "롤 프로게이머 랜덤 가챠로 나만의 드림팀을 구성하세요! 페이커, 데프트, 루키 등 2013-2026년 LCK, LPL, 월즈 챔피언 200명 이상의 선수를 뽑아 최강 로스터를 만들 수 있습니다. 무료 롤 가챠 게임으로 5분 만에 리그오브레전드 올스타 팀을 완성하세요. 18-35세 롤 e스포츠 팬들에게 완벽한 게임입니다.",
 
     // Buttons
     selectOne: "선수 한 명 뽑기",

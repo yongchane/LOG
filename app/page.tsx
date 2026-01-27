@@ -13,6 +13,7 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
+import WorldsLinkEffect from "@/components/WorldsLinkEffect";
 
 // 동적 import로 초기 번들 크기 감소
 const GachaModal = dynamic(() => import("@/components/GachaModal"), {
@@ -49,6 +50,7 @@ import {
   setBgmMuted,
 } from "@/lib/my-page-storage";
 import Footer from "@/components/Footer";
+import UpdateHistory from "@/components/UpdateHistory";
 
 const POSITIONS: Position[] = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
 
@@ -57,7 +59,7 @@ export default function Home() {
     useLanguage();
   const [roster, setRoster] = useState<UserRoster>({
     id: "",
-    createdAt: Date.now(),
+    createdAt: 0,
   });
 
   const [selectedPosition, setSelectedPosition] = useState<Position | null>(
@@ -82,10 +84,16 @@ export default function Home() {
   const pickBgmRef = useRef<HTMLAudioElement | null>(null);
   const cardBgmRef = useRef<HTMLAudioElement | null>(null);
 
-  // Load BGM muted setting on mount
+  // Load settings on mount
   useEffect(() => {
     const savedMuted = getBgmMuted();
     setIsBgmMuted(savedMuted);
+
+    // Initialize roster timestamp once on client
+    setRoster((prev) => ({
+      ...prev,
+      createdAt: prev.createdAt || Date.now(),
+    }));
   }, []);
 
   // Toggle BGM mute
@@ -496,54 +504,6 @@ export default function Home() {
   return (
     <LazyMotion features={domAnimation} strict>
       <div className="h-auto hextech-bg hexagon-pattern mb-20 md:mb-0">
-        {/* BGM Toggle Button - Fixed position */}
-        <motion.button
-          onClick={toggleBgmMute}
-          className="fixed top-4 right-4 z-50 p-3 rounded-full bg-lol-dark-lighter/80 border-2 border-lol-gold/50 hover:border-lol-gold hover:bg-lol-dark-lighter transition-all backdrop-blur-sm"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          title={isBgmMuted ? "Unmute BGM" : "Mute BGM"}
-        >
-          {isBgmMuted ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-lol-gold"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"
-              />
-            </svg>
-          ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-lol-gold"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
-              />
-            </svg>
-          )}
-        </motion.button>
 
         {/* Main Content */}
         <main className="max-w-7xl mx-auto px-4 py-12">
@@ -560,39 +520,63 @@ export default function Home() {
               {t("mainDescription")}
             </p>
 
-            {/* Worlds Animation Toggle */}
-            <motion.div
-              className="mt-6 flex items-center justify-center gap-3"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
+            {/* Integrated Controls Group */}
+            <motion.div 
+              className="mt-8 flex items-center justify-center gap-6"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
             >
-              <label className="flex items-center gap-3 cursor-pointer bg-lol-dark-lighter/50 px-4 py-3 rounded-lg border border-lol-gold/30 hover:border-lol-gold/60 transition-all">
-                <div className="flex flex-col items-start">
-                  <span className="text-white font-bold text-sm">
-                    {t("worldsAnimation")}
-                  </span>
-                  <span className="text-lol-light text-xs">
-                    {t("worldsAnimationDesc")}
-                  </span>
+              {/* BGM Toggle */}
+              <button
+                onClick={toggleBgmMute}
+                className="flex items-center gap-3 px-4 py-2 rounded-lg bg-lol-dark-lighter/40 border border-lol-gold/20 hover:border-lol-gold/50 hover:bg-lol-dark-lighter/60 transition-all group"
+              >
+                <div className="p-1.5 rounded-md bg-lol-gold/10 group-hover:bg-lol-gold/20 transition-colors">
+                  {isBgmMuted ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-lol-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                    </svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-lol-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                    </svg>
+                  )}
                 </div>
-                <div className="relative">
+                <div className="flex flex-col items-start leading-tight">
+                  <span className="text-white font-bold text-xs uppercase tracking-wider">{isBgmMuted ? "Muted" : "Playing"}</span>
+                  <span className="text-lol-light text-[10px] opacity-70">BACKGROUND BGM</span>
+                </div>
+              </button>
+
+              {/* Worlds Motion Toggle */}
+              <label className="flex items-center gap-3 px-4 py-2 rounded-lg bg-lol-dark-lighter/40 border border-lol-gold/20 hover:border-lol-gold/50 hover:bg-lol-dark-lighter/60 transition-all cursor-pointer group">
+                <div className="p-1.5 rounded-md bg-lol-gold/10 group-hover:bg-lol-gold/20 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-lol-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" />
+                  </svg>
+                </div>
+                <div className="flex flex-col items-start leading-tight">
+                  <span className="text-white font-bold text-xs uppercase tracking-wider">월즈 모션</span>
+                  <span className="text-lol-light text-[10px] opacity-70">PREMIUM EFFECTS</span>
+                </div>
+                <div className="relative ml-1">
                   <input
                     type="checkbox"
                     checked={showWorldsAnimation}
                     onChange={(e) => setShowWorldsAnimation(e.target.checked)}
                     className="sr-only peer"
                   />
-                  <div className="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:bg-lol-gold transition-colors"></div>
-                  <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
+                  <div className="w-8 h-4 bg-gray-600 rounded-full peer peer-checked:bg-lol-gold transition-colors"></div>
+                  <div className="absolute left-0.5 top-0.5 w-3 h-3 bg-white rounded-full transition-transform peer-checked:translate-x-4"></div>
                 </div>
               </label>
             </motion.div>
-
             {isRosterComplete && (
               <motion.button
                 onClick={handleReset}
-                className="mt-4 px-6 py-2 rounded-lg bg-red-600/80 border border-red-500/50 text-white hover:bg-red-500 hover:border-red-400 transition-all"
+                className="mt-4 px-6 py-2 rounded-lg bg-[#1e1e1e]/80 border border-red-500/50 text-white hover:bg-red-500 hover:border-red-400 transition-all"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
               >
@@ -601,10 +585,13 @@ export default function Home() {
             )}
           </motion.div>
 
-          {/* Roster Grid Section */}
-          <section aria-label="Player Roster" className="py-6">
+          <section aria-label="Player Roster" className="py-6 relative">
             <h2 className="sr-only">League of Legends Player Roster</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8 px-4">
+            
+            {/* Worlds Link Effect Layer */}
+            <WorldsLinkEffect roster={roster} />
+
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8 px-4 relative z-10">
               {POSITIONS.map((position, index) => (
                 <motion.div
                   key={position}
@@ -627,6 +614,7 @@ export default function Home() {
             </div>
           </section>
 
+        
           {/* Summon Actions Section */}
           {!isRosterComplete && (
             <section aria-label="Summon Actions" className="pb-8">
@@ -712,16 +700,16 @@ export default function Home() {
               <div className="flex flex-wrap justify-center gap-4 mb-2">
                 <button
                   onClick={() => handleRecordGameResult("win")}
-                  className="px-8 py-3 rounded-lg font-bold text-white bg-green-600 hover:bg-green-700 transition-all transform hover:scale-105"
+                  className="px-8 py-3 rounded-lg font-bold text-white bg-[#008000] hover:bg-green-700 transition-all transform hover:scale-105"
                 >
-                  {t("recordWin")}
+                 승리 전적 기록
                 </button>
 
                 <button
                   onClick={() => handleRecordGameResult("loss")}
-                  className="px-8 py-3 rounded-lg font-bold text-white bg-red-600 hover:bg-red-700 transition-all transform hover:scale-105"
+                  className="px-8 py-3 rounded-lg font-bold text-white bg-[#800000] hover:bg-red-700 transition-all transform hover:scale-105"
                 >
-                  {t("recordLoss")}
+                 패배 전적 기록
                 </button>
               </div>
 
@@ -741,14 +729,14 @@ export default function Home() {
                   onClick={handleShareRoster}
                   className="px-8 py-3 rounded-lg font-bold text-white bg-lol-blue hover:bg-lol-blue-dark transition-all"
                 >
-                  📤 {t("shareLink")}
+                   {t("shareLink")}
                 </button>
 
                 <button
                   onClick={handleOpenCommunityModal}
                   className="px-8 py-3 rounded-lg font-bold text-black bg-gradient-to-r from-lol-gold to-lol-gold-dark hover:from-lol-gold-dark hover:to-lol-gold transition-all gold-glow"
                 >
-                  🌟 {t("shareCommunity")}
+                   {t("shareCommunity")}
                 </button>
               </div>
 
@@ -768,6 +756,8 @@ export default function Home() {
               )}
             </motion.div>
           )}
+          {/* Update History Section - Repositioned below summon area */}
+          <UpdateHistory />
         </main>
 
         {/* Modals */}

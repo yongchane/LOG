@@ -4,6 +4,7 @@ import { Player, Position } from "@/types";
 import { m as motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState, useRef, RefObject } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import PlayerCard from "./PlayerCard";
 
 interface GachaMultiModalProps {
   players: Map<Position, Player>;
@@ -192,167 +193,60 @@ export default function GachaMultiModal({
               </motion.div>
             )}
 
-            {/* Reveal Stage - All 5 cards at once */}
             {stage === "reveal" && displayPlayers.size > 0 && (
               <motion.div
                 key={`reveal-${prevPlayersKeyRef.current}`}
-                className="flex flex-col items-center max-h-[85vh] overflow-y-auto"
+                className="flex flex-col items-center max-h-[85vh] overflow-y-auto w-full"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
               >
                 {/* Cards Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-6 w-full px-1 sm:px-0">
-                  {positionOrder.map((position, index) => {
-                    const player = displayPlayers.get(position);
-                    if (!player) return null;
-
-                    return (
-                      <motion.div
-                        key={position}
-                        initial={{ opacity: 0, y: 50, rotateY: 180 }}
-                        animate={{ opacity: 1, y: 0, rotateY: 0 }}
-                        transition={{
-                          delay: index * 0.1,
-                          type: "spring",
-                          stiffness: 200,
-                          damping: 20,
-                        }}
-                        className="col-span-1"
-                      >
-                        <div
-                          className="w-full aspect-[3/4.5] sm:aspect-[3/4] rounded-md sm:rounded-lg overflow-hidden relative"
-                          style={{
-                            background: `linear-gradient(135deg, ${player.teamColor}60 0%, rgba(30, 35, 40, 0.95) 100%)`,
-                            border: `2px solid ${player.teamColor}`,
-                            boxShadow: `0 0 20px ${player.teamColor}80`,
+                <div className={`grid gap-3 md:gap-4 mb-8 w-full px-2 sm:px-0 auto-rows-fr ${
+                  displayPlayers.size === 1 ? 'grid-cols-1 max-w-[300px]' :
+                  displayPlayers.size === 2 ? 'grid-cols-2 max-w-[600px]' :
+                  displayPlayers.size === 3 ? 'grid-cols-2 sm:grid-cols-3 max-w-[900px]' :
+                  displayPlayers.size === 4 ? 'grid-cols-2 sm:grid-cols-4 max-w-[1000px]' :
+                  'grid-cols-2 sm:grid-cols-3 md:grid-cols-5'
+                }`}>
+                  {positionOrder
+                    .filter(pos => displayPlayers.has(pos))
+                    .map((pos, index) => {
+                      const player = displayPlayers.get(pos);
+                      return (
+                        <motion.div
+                          key={pos}
+                          initial={{ opacity: 0, y: 30 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            delay: index * 0.1,
+                            type: "spring",
+                            stiffness: 200,
+                            damping: 20,
                           }}
                         >
-                          <div className="absolute inset-0 p-2 sm:p-3 md:p-4 flex flex-col justify-between">
-                            {/* Top section */}
-                            <div>
-                              <div className="text-lol-gold font-bold text-[10px] sm:text-xs md:text-sm tracking-widest mb-0.5 sm:mb-1">
-                                {player.position}
-                              </div>
-                              <div className="text-white font-bold text-base sm:text-lg md:text-xl lg:text-2xl mb-0.5 sm:mb-1 drop-shadow-lg">
-                                {player.name}
-                              </div>
-                              {player.realName && (
-                                <div className="text-lol-light text-[10px] sm:text-xs md:text-sm">
-                                  {player.realName}
-                                </div>
-                              )}
-
-                              {/* Championship Badge (English only) */}
-                              {player.isWinner && player.championshipLeague && (
-                                <div className="flex gap-1 mt-2 p-2 bg-[#3a3636] opacity-50 rounded items-center">
-                                  {player.championshipLeague === "WORLDS" && (
-                                    <img
-                                      src="/worlds.svg"
-                                      alt="Champion"
-                                      className="h-6 w-6"
-                                    />
-                                  )}
-                                  {player.championshipLeague === "MSI" && (
-                                    <img
-                                      src="/msi.svg"
-                                      alt="Champion"
-                                      className="h-6 w-6"
-                                    />
-                                  )}
-                                  {player.region === "LCK" &&
-                                    player.championshipLeague !== "WORLDS" &&
-                                    player.championshipLeague !== "MSI" && (
-                                      <img
-                                        src="/lck.svg"
-                                        alt="Champion"
-                                        className="h-6 w-6"
-                                      />
-                                    )}
-                                  {player.region === "LPL" &&
-                                    player.championshipLeague !== "WORLDS" &&
-                                    player.championshipLeague !== "MSI" && (
-                                      <img
-                                        src="/lpl.svg"
-                                        alt="Champion"
-                                        className="h-6 w-6"
-                                      />
-                                    )}
-                                  {player.region === "LEC" &&
-                                    player.championshipLeague !== "WORLDS" &&
-                                    player.championshipLeague !== "MSI" && (
-                                      <img
-                                        src="/lec.webp"
-                                        alt="Champion"
-                                        className="h-6 w-6"
-                                      />
-                                    )}
-                                  <div className="text-white text-[8px] sm:text-xs font-bold">
-                                    {player.championshipYear || player.year}{" "}
-                                    {player.championshipLeague} Champion
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-
-                            {/* Middle - Team logo */}
-                            <div className="flex items-center justify-center flex-1">
-                              <div
-                                className="text-3xl sm:text-4xl font-bold opacity-20"
-                                style={{ color: player.teamColor }}
-                              >
-                                {player.teamShort}
-                              </div>
-                            </div>
-
-                            {/* Bottom section */}
-                            <div className="space-y-2">
-                              <div className="flex items-center gap-2">
-                                <span className="text-xl sm:text-2xl">
-                                  {getFlagEmoji(player.iso)}
-                                </span>
-                                <span className="text-lol-light text-xs sm:text-sm">
-                                  {player.nationality}
-                                </span>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                <div
-                                  className="px-2 py-1 rounded text-white text-xs sm:text-sm font-bold"
-                                  style={{ backgroundColor: player.teamColor }}
-                                >
-                                  {player.teamShort}
-                                </div>
-                                <div className="text-lol-gold text-lg sm:text-xl font-bold">
-                                  {player.year}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Hexagon pattern */}
-                          <div className="absolute inset-0 hexagon-pattern opacity-20 pointer-events-none" />
-                        </div>
-                      </motion.div>
-                    );
-                  })}
+                          <PlayerCard player={player || null} position={pos} />
+                        </motion.div>
+                      );
+                    })}
                 </div>
 
                 {/* Action Buttons */}
                 <motion.div
-                  className="flex gap-4 w-full max-w-md"
+                  className="flex gap-4 w-full max-w-md pb-4"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
                 >
                   <button
                     onClick={onRerollAll}
-                    className="flex-1 px-6 py-3 rounded-lg font-bold text-white bg-lol-grey hover:bg-lol-grey/80 transition-colors"
+                    className="flex-1 px-6 py-3 rounded-lg font-bold text-white bg-lol-grey hover:bg-lol-grey/80 transition-colors uppercase tracking-wider text-sm"
                   >
                     {t("reroll")}
                   </button>
                   <button
                     onClick={onConfirm}
-                    className="flex-1 px-6 py-3 rounded-lg font-bold text-black bg-gradient-to-r from-lol-gold to-lol-gold-dark hover:from-lol-gold-dark hover:to-lol-gold transition-all gold-glow"
+                    className="flex-1 px-6 py-3 rounded-lg font-bold text-black bg-gradient-to-r from-lol-gold to-lol-gold-dark hover:from-lol-gold-dark hover:to-lol-gold transition-all gold-glow uppercase tracking-wider text-sm shadow-[0_0_20px_rgba(200,155,60,0.4)]"
                   >
                     {t("confirm")}
                   </button>

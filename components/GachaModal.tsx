@@ -4,6 +4,7 @@ import { Player } from "@/types";
 import { m as motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState, useRef, RefObject } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import PlayerCard from "./PlayerCard";
 
 interface GachaModalProps {
   player: Player | null;
@@ -162,7 +163,7 @@ export default function GachaModal({
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-50 flex items-center justify-center"
+        className="fixed inset-0 z-50 flex items-center justify-center p-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -200,7 +201,7 @@ export default function GachaModal({
         </motion.div>
 
         {/* Modal Content */}
-        <div className="relative z-10 w-full max-w-md mx-4">
+        <div className="relative z-10 w-full max-w-md">
           <AnimatePresence mode="wait">
             {/* Loading Stage - LOL Queue style */}
             {stage === "loading" && (
@@ -496,42 +497,71 @@ export default function GachaModal({
                 >
                   {/* Card Back */}
                   <div
-                    className="absolute inset-0 w-full h-full rounded-lg flex items-center justify-center"
+                    className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden shadow-2xl"
                     style={{
                       backfaceVisibility: "hidden",
-                      background:
-                        "linear-gradient(135deg, #C89B3C 0%, #937341 100%)",
-                      boxShadow: "0 0 40px rgba(200, 155, 60, 0.6)",
+                      background: "linear-gradient(135deg, #1a140d 0%, #000 100%)",
+                      border: "3px solid #C89B3C",
                     }}
                   >
-                    {/* League icon on card back */}
-                    {player.region && (
-                      <motion.img
-                        src={`/${player.region.toLowerCase()}.${
-                          player.region === "LEC" ? "webp" : "svg"
-                        }`}
-                        alt={`${player.region} Logo`}
-                        className="w-32 h-32 opacity-80"
-                        initial={{ opacity: 0, scale: 0.5 }}
-                        animate={{ opacity: 0.8, scale: 1 }}
-                        transition={{ duration: 0.3 }}
-                      />
-                    )}
+                    {/* Golden Inner Frame */}
+                    <div className="absolute inset-2 border border-[#C89B3C]/30 rounded-xl pointer-events-none" />
+                    
+                    {/* Filigree Patterns */}
+                    <svg className="absolute inset-0 w-full h-full opacity-20 pointer-events-none" viewBox="0 0 300 400">
+                      <circle cx="150" cy="200" r="120" fill="none" stroke="#C89B3C" strokeWidth="1" strokeDasharray="4 4" />
+                      <line x1="0" y1="200" x2="300" y2="200" stroke="#C89B3C" strokeWidth="0.5" />
+                      <line x1="150" y1="0" x2="150" y2="400" stroke="#C89B3C" strokeWidth="0.5" />
+                    </svg>
+
+                    {/* Central Elements */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      {/* League Logo (Restored) */}
+                      {player.region && (
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 0.8, scale: 1 }}
+                          className="relative z-10"
+                        >
+                          <img
+                            src={`/${player.region.toLowerCase()}.${player.region === "LEC" ? "webp" : "svg"}`}
+                            alt={`${player.region} Logo`}
+                            className="w-32 h-32 opacity-90 brightness-110 drop-shadow-[0_0_15px_rgba(200,155,60,0.5)]"
+                          />
+                        </motion.div>
+                      )}
+
+                      {/* Top Crown Ornament */}
+                      <div className="absolute top-6 text-lol-gold opacity-60">
+                        <svg width="40" height="25" viewBox="0 0 60 40" fill="currentColor">
+                          <path d="M30,5 L40,20 L55,10 L50,35 L10,35 L5,10 L20,20 Z" />
+                        </svg>
+                      </div>
+                    </div>
+
+                    {/* Corner Symbols */}
+                    <div className="absolute top-4 left-4 text-lol-gold/40 text-xs">✦</div>
+                    <div className="absolute top-4 right-4 text-lol-gold/40 text-xs">✦</div>
+                    <div className="absolute bottom-4 left-4 text-lol-gold/40 text-xs">✦</div>
+                    <div className="absolute bottom-4 right-4 text-lol-gold/40 text-xs">✦</div>
                   </div>
 
-                  {/* Card Front */}
+                  {/* Card Front (Generic Reveal) */}
                   <div
                     className="absolute inset-0 w-full h-full rounded-lg flex items-center justify-center"
                     style={{
                       backfaceVisibility: "hidden",
                       transform: "rotateY(180deg)",
-                      background:
-                        "linear-gradient(135deg, rgba(30, 35, 40, 0.95) 0%, rgba(20, 25, 30, 0.98) 100%)",
-                      border: "3px solid #3b82f6",
-                      boxShadow: "0 0 40px rgba(59, 130, 246, 0.6)",
+                      background: "rgba(10, 15, 20, 0.95)",
+                      border: `3px solid ${player.teamColor || '#3b82f6'}`,
                     }}
                   >
-                    <div className="text-6xl opacity-30 text-blue-500">?</div>
+                    <div 
+                      className="text-7xl font-black opacity-10"
+                      style={{ color: player.teamColor || '#3b82f6' }}
+                    >
+                      {player.position}
+                    </div>
                   </div>
                 </motion.div>
               </motion.div>
@@ -543,6 +573,7 @@ export default function GachaModal({
               displayPlayer.id === player.id && (
                 <motion.div
                   key={`show-${player.id}`}
+                  className="flex flex-col items-center w-full"
                   initial={{ scale: 0.8, opacity: 0, y: 50 }}
                   animate={{ scale: 1, opacity: 1, y: 0 }}
                   transition={{
@@ -551,494 +582,76 @@ export default function GachaModal({
                     damping: 20,
                   }}
                 >
-                  {/* Golden rays removed - was causing visual bug */}
-
-                  {/* Sparkle effects layer (in front of card) */}
-                  <div className="absolute inset-0 pointer-events-none">
-                    {isWorldsWinner ? (
-                      <>
-                        {/* More particles for Worlds winners */}
-                        {[...Array(30)].map((_, i) => (
+                  <div className="relative w-full max-w-sm mx-auto">
+                    {/* Sparkle effects layer (in front of card) */}
+                    <div className="absolute inset-0 pointer-events-none z-50">
+                      {(displayPlayer.isWinner && displayPlayer.championshipLeague === 'WORLDS') ? (
+                        <>
+                          {[...Array(20)].map((_, i) => (
+                            <motion.div
+                              key={`sparkle-${i}`}
+                              className="absolute w-1.5 h-1.5 bg-yellow-400 rounded-full"
+                              style={{
+                                left: `${Math.random() * 100}%`,
+                                top: `${Math.random() * 100}%`,
+                              }}
+                              animate={{
+                                scale: [0, 1.2, 0],
+                                opacity: [0, 1, 0],
+                                y: [0, -40],
+                              }}
+                              transition={{
+                                duration: 2,
+                                delay: i * 0.1,
+                                repeat: Infinity,
+                              }}
+                            />
+                          ))}
+                        </>
+                      ) : (
+                        [...Array(8)].map((_, i) => (
                           <motion.div
-                            key={`sparkle-${i}`}
-                            className="absolute w-2 h-2 bg-yellow-400 rounded-full"
+                            key={i}
+                            className="absolute w-1 h-1 bg-lol-gold rounded-full"
                             style={{
                               left: `${Math.random() * 100}%`,
                               top: `${Math.random() * 100}%`,
                             }}
-                            initial={{ scale: 0, opacity: 0 }}
                             animate={{
-                              scale: [0, 1.5, 0],
-                              opacity: [0, 1, 0],
+                              scale: [0, 1, 0],
+                              opacity: [0, 0.8, 0],
                             }}
                             transition={{
-                              duration: 2,
-                              delay: i * 0.1,
+                              duration: 1.5,
                               repeat: Infinity,
-                              repeatDelay: 2,
+                              delay: i * 0.2,
                             }}
                           />
-                        ))}
-                      </>
-                    ) : (
-                      /* Normal sparkles for regular players */
-                      [...Array(12)].map((_, i) => (
-                        <motion.div
-                          key={i}
-                          className="absolute w-1 h-1 bg-lol-gold rounded-full"
-                          style={{
-                            left: `${Math.random() * 100}%`,
-                            top: `${Math.random() * 100}%`,
-                          }}
-                          initial={{ scale: 0, opacity: 0 }}
-                          animate={{
-                            scale: [0, 1, 0],
-                            opacity: [0, 1, 0],
-                          }}
-                          transition={{
-                            duration: 1,
-                            delay: i * 0.1,
-                            repeat: Infinity,
-                            repeatDelay: 1,
-                          }}
-                        />
-                      ))
-                    )}
-                  </div>
-
-                  {/* Player Card Container with overflow visible for badge */}
-                  <div className="relative w-full aspect-[3/4]">
-                    {/* Championship badge - positioned to overlap card edge */}
-                    {displayPlayer.isWinner &&
-                      displayPlayer.championshipLeague && (
-                        <motion.div
-                          className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 md:-top-8 md:-right-8 z-30"
-                          initial={{ scale: 0, rotate: -180 }}
-                          animate={{ scale: 1, rotate: 0 }}
-                          transition={{
-                            delay: 0.3,
-                            type: "spring",
-                            stiffness: 260,
-                            damping: 20,
-                          }}
-                        >
-                          <div className="relative">
-                            {/* Glow effect */}
-                            <div className="absolute inset-0 bg-yellow-400 rounded-full blur-xl opacity-60 animate-pulse" />
-
-                            {/* Trophy badge */}
-                            {displayPlayer.championshipLeague === "WORLDS" && (
-                              <div
-                                className="relative bg-gradient-to-br from-yellow-300 via-yellow-400 to-yellow-600 p-2 sm:p-3 md:p-4 rounded-full shadow-2xl"
-                                style={{
-                                  boxShadow:
-                                    "0 0 30px rgba(250, 204, 21, 0.6), inset 0 2px 4px rgba(255,255,255,0.3)",
-                                }}
-                              >
-                                {/* <div className="text-5xl">🏆</div> */}
-                                <img
-                                  src="/worlds.svg"
-                                  alt="Champion Trophy"
-                                  className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10"
-                                />
-                              </div>
-                            )}
-
-                            {/* Championship info tooltip */}
-                            <motion.div
-                              className="absolute top-full mt-1 sm:mt-2 right-0 md:right-auto md:left-1/2 md:-translate-x-1/2 bg-black/90 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-lg text-[9px] sm:text-[10px] md:text-xs font-bold text-center shadow-xl max-w-[120px] md:max-w-[180px] md:whitespace-nowrap"
-                              initial={{ opacity: 0, y: -10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.6 }}
-                              style={{
-                                border: "2px solid #facc15",
-                              }}
-                            >
-                              {displayPlayer.championshipYear ||
-                                displayPlayer.year}{" "}
-                              {displayPlayer.championshipLeague} Champion
-                            </motion.div>
-                          </div>
-                        </motion.div>
+                        ))
                       )}
+                    </div>
 
-                    {/* Player Card */}
-                    <div
-                      className="w-full aspect-[3/4] rounded-lg overflow-hidden relative"
-                      style={{
-                        background: `linear-gradient(135deg, ${displayPlayer.teamColor}60 0%, rgba(30, 35, 40, 0.95) 100%)`,
-                        border: `3px solid ${displayPlayer.teamColor}`,
-                        boxShadow: `0 0 40px ${displayPlayer.teamColor}80`,
-                      }}
-                    >
-                      {/* Ornate decorative frame overlay */}
-                      <div className="absolute inset-0 pointer-events-none z-50">
-                        {/* Top ornamental border */}
-                        <div className="absolute top-0 left-0 right-0 h-16 flex items-center justify-center">
-                          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-transparent" />
-                          <div
-                            className="absolute top-2 left-1/2 -translate-x-1/2 w-48 h-8"
-                            style={{
-                              background: `linear-gradient(90deg, transparent, ${displayPlayer.teamColor}80, transparent)`,
-                            }}
-                          />
-                          <div
-                            className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-1"
-                            style={{
-                              background: displayPlayer.teamColor,
-                              boxShadow: `0 0 10px ${displayPlayer.teamColor}`,
-                            }}
-                          />
-                        </div>
-
-                        {/* Bottom ornamental border */}
-                        <div className="absolute bottom-0 left-0 right-0 h-20 flex items-center justify-center">
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                          <div
-                            className="absolute bottom-2 left-1/2 -translate-x-1/2 w-64 h-10"
-                            style={{
-                              background: `linear-gradient(90deg, transparent, ${displayPlayer.teamColor}60, transparent)`,
-                            }}
-                          />
-                          <div
-                            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-40 h-1"
-                            style={{
-                              background: displayPlayer.teamColor,
-                              boxShadow: `0 0 12px ${displayPlayer.teamColor}`,
-                            }}
-                          />
-                        </div>
-
-                        {/* Corner ornaments - Top Left */}
-                        <svg
-                          className="absolute top-0 left-0 w-16 h-16"
-                          viewBox="0 0 64 64"
-                        >
-                          <path
-                            d="M0,0 L20,0 L15,5 L10,5 L5,10 L5,15 L0,20 Z"
-                            fill={displayPlayer.teamColor}
-                            opacity="0.8"
-                          />
-                          <path
-                            d="M2,2 L18,2 L14,6 L10,6 L6,10 L6,14 L2,18 Z"
-                            fill="url(#grad1)"
-                            opacity="0.6"
-                          />
-                          <defs>
-                            <linearGradient
-                              id="grad1"
-                              x1="0%"
-                              y1="0%"
-                              x2="100%"
-                              y2="100%"
-                            >
-                              <stop
-                                offset="0%"
-                                style={{
-                                  stopColor: displayPlayer.teamColor,
-                                  stopOpacity: 1,
-                                }}
-                              />
-                              <stop
-                                offset="100%"
-                                style={{
-                                  stopColor: "#ffffff",
-                                  stopOpacity: 0.3,
-                                }}
-                              />
-                            </linearGradient>
-                          </defs>
-                        </svg>
-
-                        {/* Corner ornaments - Top Right */}
-                        <svg
-                          className="absolute top-0 right-0 w-16 h-16"
-                          viewBox="0 0 64 64"
-                        >
-                          <path
-                            d="M64,0 L44,0 L49,5 L54,5 L59,10 L59,15 L64,20 Z"
-                            fill={displayPlayer.teamColor}
-                            opacity="0.8"
-                          />
-                          <path
-                            d="M62,2 L46,2 L50,6 L54,6 L58,10 L58,14 L62,18 Z"
-                            fill="url(#grad2)"
-                            opacity="0.6"
-                          />
-                          <defs>
-                            <linearGradient
-                              id="grad2"
-                              x1="100%"
-                              y1="0%"
-                              x2="0%"
-                              y2="100%"
-                            >
-                              <stop
-                                offset="0%"
-                                style={{
-                                  stopColor: displayPlayer.teamColor,
-                                  stopOpacity: 1,
-                                }}
-                              />
-                              <stop
-                                offset="100%"
-                                style={{
-                                  stopColor: "#ffffff",
-                                  stopOpacity: 0.3,
-                                }}
-                              />
-                            </linearGradient>
-                          </defs>
-                        </svg>
-
-                        {/* Corner ornaments - Bottom Left */}
-                        <svg
-                          className="absolute bottom-0 left-0 w-16 h-16"
-                          viewBox="0 0 64 64"
-                        >
-                          <path
-                            d="M0,64 L20,64 L15,59 L10,59 L5,54 L5,49 L0,44 Z"
-                            fill={displayPlayer.teamColor}
-                            opacity="0.8"
-                          />
-                          <path
-                            d="M2,62 L18,62 L14,58 L10,58 L6,54 L6,50 L2,46 Z"
-                            fill="url(#grad3)"
-                            opacity="0.6"
-                          />
-                          <defs>
-                            <linearGradient
-                              id="grad3"
-                              x1="0%"
-                              y1="100%"
-                              x2="100%"
-                              y2="0%"
-                            >
-                              <stop
-                                offset="0%"
-                                style={{
-                                  stopColor: displayPlayer.teamColor,
-                                  stopOpacity: 1,
-                                }}
-                              />
-                              <stop
-                                offset="100%"
-                                style={{
-                                  stopColor: "#ffffff",
-                                  stopOpacity: 0.3,
-                                }}
-                              />
-                            </linearGradient>
-                          </defs>
-                        </svg>
-
-                        {/* Corner ornaments - Bottom Right */}
-                        <svg
-                          className="absolute bottom-0 right-0 w-16 h-16"
-                          viewBox="0 0 64 64"
-                        >
-                          <path
-                            d="M64,64 L44,64 L49,59 L54,59 L59,54 L59,49 L64,44 Z"
-                            fill={displayPlayer.teamColor}
-                            opacity="0.8"
-                          />
-                          <path
-                            d="M62,62 L46,62 L50,58 L54,58 L58,54 L58,50 L62,46 Z"
-                            fill="url(#grad4)"
-                            opacity="0.6"
-                          />
-                          <defs>
-                            <linearGradient
-                              id="grad4"
-                              x1="100%"
-                              y1="100%"
-                              x2="0%"
-                              y2="0%"
-                            >
-                              <stop
-                                offset="0%"
-                                style={{
-                                  stopColor: displayPlayer.teamColor,
-                                  stopOpacity: 1,
-                                }}
-                              />
-                              <stop
-                                offset="100%"
-                                style={{
-                                  stopColor: "#ffffff",
-                                  stopOpacity: 0.3,
-                                }}
-                              />
-                            </linearGradient>
-                          </defs>
-                        </svg>
-
-                        {/* Side decorative lines */}
-                        <div
-                          className="absolute left-0 top-1/4 bottom-1/4 w-1"
-                          style={{
-                            background: `linear-gradient(180deg, transparent, ${displayPlayer.teamColor}, transparent)`,
-                            boxShadow: `0 0 8px ${displayPlayer.teamColor}`,
-                          }}
-                        />
-                        <div
-                          className="absolute right-0 top-1/4 bottom-1/4 w-1"
-                          style={{
-                            background: `linear-gradient(180deg, transparent, ${displayPlayer.teamColor}, transparent)`,
-                            boxShadow: `0 0 8px ${displayPlayer.teamColor}`,
-                          }}
-                        />
-                      </div>
-
-                      {/* Card content */}
-
-                      <div className="absolute inset-0 p-6 flex flex-col justify-between">
-                        {/* Top section */}
-                        <motion.div
-                          initial={{ opacity: 0, y: -20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.4 }}
-                        >
-                          <div className="text-lol-gold font-bold text-sm tracking-widest mb-2">
-                            {displayPlayer.position}
-                          </div>
-                          <div className="text-white font-bold text-4xl mb-2 drop-shadow-lg">
-                            {displayPlayer.name}
-                          </div>
-
-                          {displayPlayer.realName && (
-                            <div className="text-lol-light text-base">
-                              {displayPlayer.realName}
-                            </div>
-                          )}
-                          {(displayPlayer.championshipLeague === "WORLDS" ||
-                            displayPlayer.championshipLeague === "MSI" ||
-                            (displayPlayer.isWinner &&
-                              (displayPlayer.region === "LCK" ||
-                                displayPlayer.region === "LPL" ||
-                                displayPlayer.region === "LEC"))) && (
-                            <div className="flex gap-2 mt-4 w-full p-[10px] bg-[#3a3636] opacity-50 rounded-lg items-center">
-                              {displayPlayer.championshipLeague ===
-                                "WORLDS" && (
-                                <div>
-                                  <img
-                                    src="/worlds.svg"
-                                    alt="Champion Banner"
-                                    className="h-10 w-10 mb-2"
-                                  />
-                                </div>
-                              )}
-                              {displayPlayer.region === "LCK" &&
-                                displayPlayer.isWinner && (
-                                  <div>
-                                    <img
-                                      src="/lck.svg"
-                                      alt="Champion Banner"
-                                      className="h-10 w-10 mb-2"
-                                    />
-                                  </div>
-                                )}
-                              {displayPlayer.region === "LPL" &&
-                                displayPlayer.isWinner && (
-                                  <div>
-                                    <img
-                                      src="/lpl.svg"
-                                      alt="Champion Banner"
-                                      className="h-10 w-10 mb-2"
-                                    />
-                                  </div>
-                                )}
-                              {displayPlayer.region === "LEC" &&
-                                displayPlayer.isWinner && (
-                                  <div>
-                                    <img
-                                      src="/lec.webp"
-                                      alt="Champion Banner"
-                                      className="h-10 w-8 mb-2"
-                                    />
-                                  </div>
-                                )}
-
-                              {displayPlayer.championshipLeague === "MSI" && (
-                                <div>
-                                  <img
-                                    src="/msi.svg"
-                                    alt="Champion Banner"
-                                    className="h-10 w-10 mb-2"
-                                  />
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </motion.div>
-
-                        {/* Middle - Large team logo area (placeholder) */}
-                        <motion.div
-                          className="flex items-center justify-center"
-                          initial={{ opacity: 0, scale: 0.5 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.4 }}
-                        >
-                          <div
-                            className="text-6xl font-bold opacity-20"
-                            style={{ color: displayPlayer.teamColor }}
-                          >
-                            {displayPlayer.teamShort}
-                          </div>
-                        </motion.div>
-
-                        {/* Bottom section */}
-                        <motion.div
-                          className="space-y-3"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.3 }}
-                        >
-                          <div className="flex items-center gap-3">
-                            <span className="text-4xl">
-                              {getFlagEmoji(displayPlayer.iso)}
-                            </span>
-                            <span className="text-lol-light text-base">
-                              {displayPlayer.nationality}
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <div
-                              className="px-4 py-2 rounded text-white text-base font-bold"
-                              style={{
-                                backgroundColor: displayPlayer.teamColor,
-                              }}
-                            >
-                              {displayPlayer.teamFull}
-                            </div>
-                            <div className="text-lol-gold text-2xl font-bold">
-                              {displayPlayer.year}
-                            </div>
-                          </div>
-                        </motion.div>
-                      </div>
-
-                      {/* Hexagon pattern */}
-                      <div className="absolute inset-0 hexagon-pattern opacity-20 pointer-events-none" />
+                    {/* USE UNIFIED PLAYERCARD COMPONENT */}
+                    <div className="relative z-10 scale-100 sm:scale-125 mb-24 sm:mb-32">
+                      <PlayerCard player={displayPlayer} position={displayPlayer.position} />
                     </div>
                   </div>
-
                   {/* Action Buttons */}
                   <motion.div
-                    className="flex gap-4 mt-6"
+                    className="flex gap-4 mt-4 w-full"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 }}
                   >
                     <button
                       onClick={onCancel}
-                      className="flex-1 px-6 py-3 rounded-lg font-bold text-white bg-lol-grey hover:bg-lol-grey/80 transition-colors"
+                      className="flex-1 px-6 py-3 rounded-lg font-bold text-white bg-lol-grey hover:bg-lol-grey/80 transition-colors uppercase tracking-wider text-sm"
                     >
                       {t("reroll")}
                     </button>
                     <button
                       onClick={onConfirm}
-                      className="flex-1 px-6 py-3 rounded-lg font-bold text-black bg-gradient-to-r from-lol-gold to-lol-gold-dark hover:from-lol-gold-dark hover:to-lol-gold transition-all gold-glow"
+                      className="flex-1 px-6 py-3 rounded-lg font-bold text-black bg-gradient-to-r from-lol-gold to-lol-gold-dark hover:from-lol-gold-dark hover:to-lol-gold transition-all gold-glow uppercase tracking-wider text-sm shadow-[0_0_20px_rgba(200,155,60,0.4)]"
                     >
                       {t("confirm")}
                     </button>

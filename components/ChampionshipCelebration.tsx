@@ -16,8 +16,10 @@ export default function ChampionshipCelebration({
   onClose,
 }: ChampionshipCelebrationProps) {
   const [confetti, setConfetti] = useState<{ id: number; x: number; delay: number }[]>([]);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     if (isOpen && championship) {
       // Generate confetti particles
       const particles = Array.from({ length: 50 }, (_, i) => ({
@@ -76,12 +78,12 @@ export default function ChampionshipCelebration({
                 }}
                 initial={{ y: 0, opacity: 1, rotate: 0 }}
                 animate={{
-                  y: window.innerHeight + 100,
+                  y: typeof window !== 'undefined' ? window.innerHeight + 100 : 1000,
                   opacity: [1, 1, 0],
                   rotate: 360 * 3,
                 }}
                 transition={{
-                  duration: 3 + Math.random() * 2,
+                  duration: mounted ? 3 + Math.random() * 2 : 3,
                   delay: particle.delay,
                   ease: 'easeIn',
                 }}

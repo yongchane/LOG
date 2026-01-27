@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | Loga 롤 가챠 - League of Gacha",
   },
   description:
-    "리그오브가챠(Loga/로가) - 롤 프로게이머 가챠 게임! 페이커, 데프트, 루키 등 200명 이상의 선수로 드림팀 구성. Build your dream LoL team with Faker, Deft, Rookie! Free League of Legends gacha game featuring 200+ pro players from LCK, LPL, LEC, Worlds, MSI 2013-2025.",
+    "리그오브가챠(Loga/로가) - 롤 프로게이머 가챠 게임! 페이커, 데프트, 루키 등 200명 이상의 선수로 드림팀 구성. Build your dream LoL team with Faker, Deft, Rookie! Free League of Legends gacha game featuring 200+ pro players from LCK, LPL, LEC, Worlds, MSI 2013-2026.",
   keywords: [
     // 서비스 브랜드명
     "Loga",
@@ -201,7 +201,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <head>
         <meta name="google-adsense-account" content="ca-pub-6192776695660842" />
         <link rel="icon" href="/log.png" />
@@ -250,6 +250,7 @@ export default function RootLayout({
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
@@ -269,7 +270,7 @@ export default function RootLayout({
           data={{
             name: "League of Gacha - LOL Pro Player Gacha Game",
             description:
-              "Free online gacha game where you summon real League of Legends pro players from 2013-2025 to build your dream esports team",
+              "Free online gacha game where you summon real League of Legends pro players from 2013-2026 to build your dream esports team",
             url: "https://leagueofgacha.com",
           }}
         />

@@ -62,7 +62,7 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
           name: data.name || "League of Gacha",
           description:
             data.description ||
-            "Free online gacha game where you summon real League of Legends pro players from 2013-2025 to build your dream esports team. Features 200+ players from LCK, LPL, LEC, Worlds, and MSI.",
+            "Free online gacha game where you summon real League of Legends pro players from 2013-2026 to build your dream esports team. Features 200+ players from LCK, LPL, LEC, Worlds, and MSI.",
           url: data.url || "https://leagueofgacha.com",
           genre: ["Gacha Game", "Sports Game", "Team Builder", "Fantasy Game"],
           gamePlatform: "Web Browser",
