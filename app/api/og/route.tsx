@@ -10,6 +10,11 @@ export const runtime = "edge";
 
 export async function GET(request: Request) {
   try {
+    // Font loading for Cloudflare Edge
+    const fontData = await fetch(
+      new URL("https://assets.vercel.com/font/inter/Inter-Bold.ttf", import.meta.url)
+    ).then((res) => res.arrayBuffer());
+
     const { searchParams } = new URL(request.url);
     const rosterParam = searchParams.get("roster");
 
@@ -28,9 +33,10 @@ export async function GET(request: Request) {
               backgroundImage:
                 "linear-gradient(to bottom right, #091428, #0a0a0c)",
               color: "#C8AA6E",
+              fontFamily: '"Inter"',
             }}
           >
-            <div style={{ fontSize: 60, fontWeight: "bold", marginBottom: 20 }}>
+            <div style={{ fontSize: 60, fontWeight: 700, marginBottom: 20 }}>
               LEAGUE OF GACHA
             </div>
             <div style={{ fontSize: 30, color: "#F0E6D2" }}>
@@ -41,6 +47,14 @@ export async function GET(request: Request) {
         {
           width: 1200,
           height: 630,
+          fonts: [
+            {
+              name: "Inter",
+              data: fontData,
+              style: "normal",
+              weight: 700,
+            },
+          ],
         }
       );
     }
@@ -341,6 +355,14 @@ export async function GET(request: Request) {
       {
         width: 1200,
         height: 630,
+        fonts: [
+          {
+            name: "Inter",
+            data: fontData,
+            style: "normal",
+            weight: 700,
+          },
+        ],
       }
     );
   } catch (e: any) {
