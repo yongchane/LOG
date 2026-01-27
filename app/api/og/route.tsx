@@ -10,14 +10,11 @@ export const runtime = "edge";
 
 export async function GET(request: Request) {
   try {
-    // Font loading using Google Fonts (Reliable Source)
+    // Font loading: Fetch from the same domain to avoid external fetch issues
     const fontData = await fetch(
-      new URL(
-        "https://github.com/google/fonts/raw/main/ofl/inter/Inter-Bold.ttf",
-        import.meta.url
-      )
+      new URL("https://leagueofgacha.com/fonts/Inter-Bold.ttf")
     ).then((res) => {
-      if (!res.ok) throw new Error("Failed to load font");
+      if (!res.ok) throw new Error(`Failed to load font: ${res.statusText}`);
       return res.arrayBuffer();
     });
 
