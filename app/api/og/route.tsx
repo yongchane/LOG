@@ -9,10 +9,11 @@ const POSITIONS: Position[] = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
 export const runtime = "edge";
 
 export async function GET(request: Request) {
+  console.log("Generating OG Image...");
   try {
-    // Font loading for Cloudflare Edge
+    // Font loading for Cloudflare Edge (using reliable raw URL)
     const fontData = await fetch(
-      new URL("https://assets.vercel.com/font/inter/Inter-Bold.ttf", import.meta.url)
+      new URL("https://github.com/google/fonts/raw/main/ofl/inter/Inter-Bold.ttf", import.meta.url)
     ).then((res) => res.arrayBuffer());
 
     const { searchParams } = new URL(request.url);
