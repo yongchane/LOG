@@ -88,21 +88,39 @@ export async function GET(request: Request) {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "white",
-            color: "black",
+            backgroundColor: "navy",
+            padding: "40px",
           }}
         >
+          {/* Championship Badge (if exists) */}
+          {championship && (
+            <div
+              style={{
+                display: "flex",
+                fontSize: 28,
+                fontWeight: "bold",
+                color: "gold",
+                marginBottom: 20,
+                padding: "10px 20px",
+                border: "3px solid gold",
+                borderRadius: 10,
+              }}
+            >
+              🏆 {String(championship)} CHAMPION
+            </div>
+          )}
+
           {/* Title */}
           <div
             style={{
               display: "flex",
-              marginBottom: 40,
-              fontSize: 32,
+              fontSize: 48,
               fontWeight: "bold",
-              color: "black",
+              color: "gold",
+              marginBottom: 40,
             }}
           >
-            LEAGUE OF GACHA
+            MY LEGENDARY ROSTER
           </div>
 
           {/* Cards Container */}
@@ -110,14 +128,11 @@ export async function GET(request: Request) {
             style={{
               display: "flex",
               flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "100%",
+              gap: 16,
             }}
           >
-            {POSITIONS.map((pos, index) => {
+            {POSITIONS.map((pos) => {
               const player = rosterPlayers[pos];
-              const marginRight = index < POSITIONS.length - 1 ? 20 : 0;
 
               return (
                 <div
@@ -125,43 +140,106 @@ export async function GET(request: Request) {
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    width: 200,
-                    height: 300,
-                    backgroundColor: "#f0f0f0", // Light Gray
-                    border: "3px solid black",
-                    borderRadius: 15,
-                    marginRight: marginRight,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: 10,
+                    width: 180,
+                    height: 280,
+                    backgroundColor: player ? "darkslateblue" : "dimgray",
+                    border: player ? "4px solid gold" : "4px solid silver",
+                    borderRadius: 12,
+                    padding: 16,
                   }}
                 >
-                  <div style={{ fontSize: 16, fontWeight: "bold", marginBottom: 10, color: "black" }}>
+                  {/* Position Badge */}
+                  <div
+                    style={{
+                      display: "flex",
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      color: "white",
+                      backgroundColor: player ? "gold" : "gray",
+                      padding: "6px 12px",
+                      borderRadius: 6,
+                      marginBottom: 16,
+                      justifyContent: "center",
+                    }}
+                  >
                     {pos}
                   </div>
-                  
+
                   {player ? (
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <div style={{ fontSize: 24, fontWeight: '900', textAlign: 'center', color: "black" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        flex: 1,
+                        justifyContent: "center",
+                      }}
+                    >
+                      {/* Player Name */}
+                      <div
+                        style={{
+                          fontSize: 28,
+                          fontWeight: "bold",
+                          color: "white",
+                          marginBottom: 12,
+                          textAlign: "center",
+                        }}
+                      >
                         {player.name}
                       </div>
-                      <div style={{ fontSize: 14, color: "#555", marginTop: 5 }}>
+
+                      {/* Nationality */}
+                      <div
+                        style={{
+                          fontSize: 18,
+                          color: "lightgray",
+                          marginBottom: 16,
+                        }}
+                      >
                         {player.nationality}
                       </div>
-                      <div style={{ fontSize: 14, color: "black", marginTop: 10, fontWeight: "bold" }}>
+
+                      {/* Team & Year */}
+                      <div
+                        style={{
+                          display: "flex",
+                          fontSize: 16,
+                          color: "gold",
+                          fontWeight: "bold",
+                        }}
+                      >
                         {player.teamShort} • {player.year}
                       </div>
                     </div>
                   ) : (
-                    <div style={{ fontSize: 20, color: "#999" }}>?</div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flex: 1,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: 60,
+                        color: "silver",
+                      }}
+                    >
+                      ?
+                    </div>
                   )}
                 </div>
               );
             })}
           </div>
-          
-          <div style={{ marginTop: 20, fontSize: 16, display: 'flex', color: "#6b7280" }}>
-            leagueofgacha.com - v6.0 WHITE MODE
+
+          {/* Footer */}
+          <div
+            style={{
+              display: "flex",
+              fontSize: 20,
+              color: "lightgray",
+              marginTop: 40,
+            }}
+          >
+            leagueofgacha.com
           </div>
         </div>
       ),
@@ -169,10 +247,10 @@ export async function GET(request: Request) {
         width: 1200,
         height: 630,
         headers: {
-            "Cache-Control": "no-cache, no-store, must-revalidate",
-            "Pragma": "no-cache",
-            "Expires": "0",
-        }
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
       }
     );
   } catch (e) {
