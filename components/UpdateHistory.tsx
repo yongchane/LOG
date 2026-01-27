@@ -5,6 +5,11 @@ import { m as motion } from "framer-motion";
 const UPDATES = [
   {
     date: "2026.01.27",
+    content: "SNS 공유 미리보기 추가: 로스터를 공유하면 카카오톡, 트위터, 페이스북에서 선수 카드 미리보기 가능! 친구들에게 나만의 전설적인 로스터를 자랑하세요 (SNS Share Preview: Share your legendary roster with stunning player card previews on KakaoTalk, Twitter, Facebook!)",
+    type: "Feature"
+  },
+  {
+    date: "2026.01.27",
     content: "카드 UI 업데이트: 모던 헥스텍 디자인 및 월즈 우승자 특수 효과 추가 (Card UI Overhaul: Modern Hextech Design & Worlds Winner Effects)",
     type: "UI/UX"
   },
