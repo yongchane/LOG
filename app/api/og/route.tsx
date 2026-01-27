@@ -10,13 +10,8 @@ export const runtime = "edge";
 
 export async function GET(request: Request) {
   try {
-    // Font loading: Fetch from the same domain to avoid external fetch issues
-    const fontData = await fetch(
-      new URL("https://leagueofgacha.com/fonts/Inter-Bold.ttf")
-    ).then((res) => {
-      if (!res.ok) throw new Error(`Failed to load font: ${res.statusText}`);
-      return res.arrayBuffer();
-    });
+    // DEBUG: Temporarily removed font loading
+    // const fontData = await fetch(...)
 
     const { searchParams } = new URL(request.url);
     const rosterParam = searchParams.get("roster");
@@ -36,7 +31,6 @@ export async function GET(request: Request) {
               backgroundImage:
                 "linear-gradient(to bottom right, #091428, #0a0a0c)",
               color: "#C8AA6E",
-              fontFamily: '"Inter"',
             }}
           >
             <div style={{ fontSize: 60, fontWeight: 700, marginBottom: 20 }}>
@@ -50,14 +44,6 @@ export async function GET(request: Request) {
         {
           width: 1200,
           height: 630,
-          fonts: [
-            {
-              name: "Inter",
-              data: fontData,
-              style: "normal",
-              weight: 700,
-            },
-          ],
         }
       );
     }
@@ -358,14 +344,6 @@ export async function GET(request: Request) {
       {
         width: 1200,
         height: 630,
-        fonts: [
-          {
-            name: "Inter",
-            data: fontData,
-            style: "normal",
-            weight: 700,
-          },
-        ],
       }
     );
   } catch (e: any) {
