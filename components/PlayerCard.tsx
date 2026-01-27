@@ -97,32 +97,88 @@ export default function PlayerCard({
     return (
       <motion.button
         onClick={onClick}
-        className="relative w-full aspect-[3/5] sm:aspect-[3/4] rounded-lg overflow-hidden cursor-pointer group"
+        className="relative w-full aspect-[3/5] sm:aspect-[3/4] rounded-xl overflow-hidden cursor-pointer group"
         style={{
-          background:
-            "linear-gradient(135deg, rgba(10, 200, 185, 0.1) 0%, rgba(30, 35, 40, 0.8) 100%)",
-          border: "2px solid rgba(200, 155, 60, 0.3)",
-          transformStyle: "preserve-3d",
-          transform: "perspective(1000px)",
+          background: "linear-gradient(135deg, #1a1f2e 0%, #0f1419 100%)",
         }}
-        whileHover={{ scale: 1.05, borderColor: "rgba(200, 155, 60, 0.8)" }}
+        whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-        <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-          <div className="text-4xl mb-2 opacity-50">?</div>
-          <div className="text-lol-gold font-bold text-lg tracking-wider">
+        {/* Ornate border frame */}
+        <div className="absolute inset-0">
+          {/* Top ornate border */}
+          <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-lol-gold via-lol-gold-dark to-transparent opacity-80">
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(200, 155, 60, 0.3) 10px, rgba(200, 155, 60, 0.3) 11px)",
+              }}
+            />
+          </div>
+
+          {/* Bottom ornate border */}
+          <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-lol-gold via-lol-gold-dark to-transparent opacity-80">
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(200, 155, 60, 0.3) 10px, rgba(200, 155, 60, 0.3) 11px)",
+              }}
+            />
+          </div>
+
+          {/* Side borders with ornaments */}
+          <div className="absolute top-0 bottom-0 left-0 w-3 bg-gradient-to-r from-lol-gold to-transparent opacity-80" />
+          <div className="absolute top-0 bottom-0 right-0 w-3 bg-gradient-to-l from-lol-gold to-transparent opacity-80" />
+
+          {/* Corner decorations */}
+          <div className="absolute top-2 left-2 w-8 h-8 border-t-2 border-l-2 border-lol-gold opacity-60" />
+          <div className="absolute top-2 right-2 w-8 h-8 border-t-2 border-r-2 border-lol-gold opacity-60" />
+          <div className="absolute bottom-2 left-2 w-8 h-8 border-b-2 border-l-2 border-lol-gold opacity-60" />
+          <div className="absolute bottom-2 right-2 w-8 h-8 border-b-2 border-r-2 border-lol-gold opacity-60" />
+        </div>
+
+        <div className="absolute inset-0 flex flex-col items-center justify-center p-4 z-10">
+          <div className="text-6xl mb-4 opacity-50 filter drop-shadow-[0_0_10px_rgba(200,155,60,0.5)]">
+            ?
+          </div>
+          <div className="text-lol-gold font-bold text-xl tracking-wider drop-shadow-lg">
             {position}
           </div>
-          <div className="text-lol-light text-sm mt-2 opacity-70">
+          <div className="text-lol-light text-sm mt-3 opacity-70">
             Click to Summon
           </div>
         </div>
 
-        {/* Hexagon pattern overlay */}
-        <div className="absolute inset-0 hexagon-pattern opacity-30"></div>
+        {/* Mystical pattern overlay */}
+        <div className="absolute inset-0 hexagon-pattern opacity-20"></div>
 
-        {/* Glow effect on hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-lol-gold/0 via-lol-gold/0 to-lol-gold/0 group-hover:from-lol-gold/10 group-hover:via-lol-gold/5 transition-all duration-300"></div>
+        {/* Animated glow on hover */}
+        <motion.div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          style={{
+            background:
+              "radial-gradient(circle at 50% 50%, rgba(200, 155, 60, 0.2) 0%, transparent 70%)",
+          }}
+        />
+
+        {/* Shimmering light effect */}
+        <motion.div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100"
+          style={{
+            background:
+              "linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%)",
+          }}
+          animate={{
+            x: ["-100%", "200%"],
+          }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            repeatDelay: 1,
+          }}
+        />
       </motion.button>
     );
   }
@@ -227,6 +283,136 @@ export default function PlayerCard({
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.98 }}
       >
+        {/* Ornate decorative frame overlay */}
+        <div className="absolute inset-0 pointer-events-none z-50">
+          {/* Top ornamental border */}
+          <div className="absolute top-0 left-0 right-0 h-16">
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-transparent" />
+            <div
+              className="absolute top-0 left-0 right-0 h-1"
+              style={{
+                background: `linear-gradient(90deg, transparent, ${player.teamColor}, transparent)`,
+              }}
+            />
+            <div
+              className="absolute top-2 left-0 right-0 h-px"
+              style={{
+                background: `repeating-linear-gradient(90deg, transparent, transparent 8px, ${player.teamColor}50 8px, ${player.teamColor}50 10px)`,
+              }}
+            />
+          </div>
+
+          {/* Bottom ornamental border */}
+          <div className="absolute bottom-0 left-0 right-0 h-20">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
+            <div
+              className="absolute bottom-0 left-0 right-0 h-1"
+              style={{
+                background: `linear-gradient(90deg, transparent, ${player.teamColor}, transparent)`,
+              }}
+            />
+            <div
+              className="absolute bottom-2 left-0 right-0 h-px"
+              style={{
+                background: `repeating-linear-gradient(90deg, transparent, transparent 8px, ${player.teamColor}50 8px, ${player.teamColor}50 10px)`,
+              }}
+            />
+          </div>
+
+          {/* Corner ornaments */}
+          <svg className="absolute top-2 left-2 w-12 h-12" viewBox="0 0 50 50">
+            <path
+              d="M0,0 L20,0 L10,10 L0,20 Z"
+              fill={player.teamColor}
+              opacity="0.6"
+            />
+            <path d="M2,2 L15,2 L10,7 L2,15 Z" fill="url(#cornerGrad)" />
+            <defs>
+              <linearGradient
+                id="cornerGrad"
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="100%"
+              >
+                <stop
+                  offset="0%"
+                  stopColor={player.teamColor}
+                  stopOpacity="0.8"
+                />
+                <stop
+                  offset="100%"
+                  stopColor={player.teamColor}
+                  stopOpacity="0.2"
+                />
+              </linearGradient>
+            </defs>
+          </svg>
+
+          <svg className="absolute top-2 right-2 w-12 h-12" viewBox="0 0 50 50">
+            <path
+              d="M50,0 L30,0 L40,10 L50,20 Z"
+              fill={player.teamColor}
+              opacity="0.6"
+            />
+            <path
+              d="M48,2 L35,2 L40,7 L48,15 Z"
+              fill={player.teamColor}
+              opacity="0.4"
+            />
+          </svg>
+
+          <svg
+            className="absolute bottom-2 left-2 w-12 h-12"
+            viewBox="0 0 50 50"
+          >
+            <path
+              d="M0,50 L20,50 L10,40 L0,30 Z"
+              fill={player.teamColor}
+              opacity="0.6"
+            />
+            <path
+              d="M2,48 L15,48 L10,43 L2,35 Z"
+              fill={player.teamColor}
+              opacity="0.4"
+            />
+          </svg>
+
+          <svg
+            className="absolute bottom-2 right-2 w-12 h-12"
+            viewBox="0 0 50 50"
+          >
+            <path
+              d="M50,50 L30,50 L40,40 L50,30 Z"
+              fill={player.teamColor}
+              opacity="0.6"
+            />
+            <path
+              d="M48,48 L35,48 L40,43 L48,35 Z"
+              fill={player.teamColor}
+              opacity="0.4"
+            />
+          </svg>
+
+          {/* Side decorative lines */}
+          <div className="absolute top-20 bottom-20 left-0 w-2">
+            <div
+              className="h-full"
+              style={{
+                background: `linear-gradient(180deg, transparent, ${player.teamColor}60 50%, transparent)`,
+              }}
+            />
+          </div>
+          <div className="absolute top-20 bottom-20 right-0 w-2">
+            <div
+              className="h-full"
+              style={{
+                background: `linear-gradient(180deg, transparent, ${player.teamColor}60 50%, transparent)`,
+              }}
+            />
+          </div>
+        </div>
+
         {/* WORLDS CHAMPION EXCLUSIVE EFFECTS */}
         {isWorldsChampion && (
           <>

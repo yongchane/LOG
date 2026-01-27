@@ -671,6 +671,225 @@ export default function GachaModal({
                         boxShadow: `0 0 40px ${displayPlayer.teamColor}80`,
                       }}
                     >
+                      {/* Ornate decorative frame overlay */}
+                      <div className="absolute inset-0 pointer-events-none z-50">
+                        {/* Top ornamental border */}
+                        <div className="absolute top-0 left-0 right-0 h-16 flex items-center justify-center">
+                          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-transparent" />
+                          <div
+                            className="absolute top-2 left-1/2 -translate-x-1/2 w-48 h-8"
+                            style={{
+                              background: `linear-gradient(90deg, transparent, ${displayPlayer.teamColor}80, transparent)`,
+                            }}
+                          />
+                          <div
+                            className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-1"
+                            style={{
+                              background: displayPlayer.teamColor,
+                              boxShadow: `0 0 10px ${displayPlayer.teamColor}`,
+                            }}
+                          />
+                        </div>
+
+                        {/* Bottom ornamental border */}
+                        <div className="absolute bottom-0 left-0 right-0 h-20 flex items-center justify-center">
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                          <div
+                            className="absolute bottom-2 left-1/2 -translate-x-1/2 w-64 h-10"
+                            style={{
+                              background: `linear-gradient(90deg, transparent, ${displayPlayer.teamColor}60, transparent)`,
+                            }}
+                          />
+                          <div
+                            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-40 h-1"
+                            style={{
+                              background: displayPlayer.teamColor,
+                              boxShadow: `0 0 12px ${displayPlayer.teamColor}`,
+                            }}
+                          />
+                        </div>
+
+                        {/* Corner ornaments - Top Left */}
+                        <svg
+                          className="absolute top-0 left-0 w-16 h-16"
+                          viewBox="0 0 64 64"
+                        >
+                          <path
+                            d="M0,0 L20,0 L15,5 L10,5 L5,10 L5,15 L0,20 Z"
+                            fill={displayPlayer.teamColor}
+                            opacity="0.8"
+                          />
+                          <path
+                            d="M2,2 L18,2 L14,6 L10,6 L6,10 L6,14 L2,18 Z"
+                            fill="url(#grad1)"
+                            opacity="0.6"
+                          />
+                          <defs>
+                            <linearGradient
+                              id="grad1"
+                              x1="0%"
+                              y1="0%"
+                              x2="100%"
+                              y2="100%"
+                            >
+                              <stop
+                                offset="0%"
+                                style={{
+                                  stopColor: displayPlayer.teamColor,
+                                  stopOpacity: 1,
+                                }}
+                              />
+                              <stop
+                                offset="100%"
+                                style={{
+                                  stopColor: "#ffffff",
+                                  stopOpacity: 0.3,
+                                }}
+                              />
+                            </linearGradient>
+                          </defs>
+                        </svg>
+
+                        {/* Corner ornaments - Top Right */}
+                        <svg
+                          className="absolute top-0 right-0 w-16 h-16"
+                          viewBox="0 0 64 64"
+                        >
+                          <path
+                            d="M64,0 L44,0 L49,5 L54,5 L59,10 L59,15 L64,20 Z"
+                            fill={displayPlayer.teamColor}
+                            opacity="0.8"
+                          />
+                          <path
+                            d="M62,2 L46,2 L50,6 L54,6 L58,10 L58,14 L62,18 Z"
+                            fill="url(#grad2)"
+                            opacity="0.6"
+                          />
+                          <defs>
+                            <linearGradient
+                              id="grad2"
+                              x1="100%"
+                              y1="0%"
+                              x2="0%"
+                              y2="100%"
+                            >
+                              <stop
+                                offset="0%"
+                                style={{
+                                  stopColor: displayPlayer.teamColor,
+                                  stopOpacity: 1,
+                                }}
+                              />
+                              <stop
+                                offset="100%"
+                                style={{
+                                  stopColor: "#ffffff",
+                                  stopOpacity: 0.3,
+                                }}
+                              />
+                            </linearGradient>
+                          </defs>
+                        </svg>
+
+                        {/* Corner ornaments - Bottom Left */}
+                        <svg
+                          className="absolute bottom-0 left-0 w-16 h-16"
+                          viewBox="0 0 64 64"
+                        >
+                          <path
+                            d="M0,64 L20,64 L15,59 L10,59 L5,54 L5,49 L0,44 Z"
+                            fill={displayPlayer.teamColor}
+                            opacity="0.8"
+                          />
+                          <path
+                            d="M2,62 L18,62 L14,58 L10,58 L6,54 L6,50 L2,46 Z"
+                            fill="url(#grad3)"
+                            opacity="0.6"
+                          />
+                          <defs>
+                            <linearGradient
+                              id="grad3"
+                              x1="0%"
+                              y1="100%"
+                              x2="100%"
+                              y2="0%"
+                            >
+                              <stop
+                                offset="0%"
+                                style={{
+                                  stopColor: displayPlayer.teamColor,
+                                  stopOpacity: 1,
+                                }}
+                              />
+                              <stop
+                                offset="100%"
+                                style={{
+                                  stopColor: "#ffffff",
+                                  stopOpacity: 0.3,
+                                }}
+                              />
+                            </linearGradient>
+                          </defs>
+                        </svg>
+
+                        {/* Corner ornaments - Bottom Right */}
+                        <svg
+                          className="absolute bottom-0 right-0 w-16 h-16"
+                          viewBox="0 0 64 64"
+                        >
+                          <path
+                            d="M64,64 L44,64 L49,59 L54,59 L59,54 L59,49 L64,44 Z"
+                            fill={displayPlayer.teamColor}
+                            opacity="0.8"
+                          />
+                          <path
+                            d="M62,62 L46,62 L50,58 L54,58 L58,54 L58,50 L62,46 Z"
+                            fill="url(#grad4)"
+                            opacity="0.6"
+                          />
+                          <defs>
+                            <linearGradient
+                              id="grad4"
+                              x1="100%"
+                              y1="100%"
+                              x2="0%"
+                              y2="0%"
+                            >
+                              <stop
+                                offset="0%"
+                                style={{
+                                  stopColor: displayPlayer.teamColor,
+                                  stopOpacity: 1,
+                                }}
+                              />
+                              <stop
+                                offset="100%"
+                                style={{
+                                  stopColor: "#ffffff",
+                                  stopOpacity: 0.3,
+                                }}
+                              />
+                            </linearGradient>
+                          </defs>
+                        </svg>
+
+                        {/* Side decorative lines */}
+                        <div
+                          className="absolute left-0 top-1/4 bottom-1/4 w-1"
+                          style={{
+                            background: `linear-gradient(180deg, transparent, ${displayPlayer.teamColor}, transparent)`,
+                            boxShadow: `0 0 8px ${displayPlayer.teamColor}`,
+                          }}
+                        />
+                        <div
+                          className="absolute right-0 top-1/4 bottom-1/4 w-1"
+                          style={{
+                            background: `linear-gradient(180deg, transparent, ${displayPlayer.teamColor}, transparent)`,
+                            boxShadow: `0 0 8px ${displayPlayer.teamColor}`,
+                          }}
+                        />
+                      </div>
+
                       {/* Card content */}
 
                       <div className="absolute inset-0 p-6 flex flex-col justify-between">
