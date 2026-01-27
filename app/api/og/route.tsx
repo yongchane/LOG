@@ -340,6 +340,12 @@ export async function GET(request: Request) {
             leagueofgacha.com
           </div>
         </div>
+      ),
+      {
+        width: 1200,
+        height: 630,
+      }
+    );
   } catch (e: any) {
     console.error("OG Image Error:", e);
     return new Response(
