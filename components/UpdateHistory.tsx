@@ -34,7 +34,7 @@ export default function UpdateHistory() {
       <div className="space-y-4 max-w-4xl mx-auto">
         {UPDATES.map((update, index) => (
           <motion.div
-            key={update.date}
+            key={`${update.date}-${index}`}
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}

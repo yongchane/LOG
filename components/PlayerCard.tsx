@@ -3,7 +3,7 @@
 import { Player } from "@/types";
 import { m as motion } from "framer-motion";
 import { getTranslations } from "@/lib/i18n";
-import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo, memo } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface PlayerCardProps {
@@ -13,7 +13,7 @@ interface PlayerCardProps {
   isRevealing?: boolean;
 }
 
-export default function PlayerCard({
+const PlayerCard = memo(function PlayerCard({
   player,
   position,
   onClick,
@@ -365,7 +365,9 @@ export default function PlayerCard({
     </div>
 
   );
-}
+});
+
+export default PlayerCard;
 
 // Helper function to get flag emoji from ISO code
 function getFlagEmoji(isoCode: string): string {

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
-import AdBanner from "@/components/AdBanner";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import MicrosoftClarity from "@/components/MicrosoftClarity";
 import StructuredData from "@/components/StructuredData";
@@ -11,11 +10,15 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
+  preload: true,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -204,8 +207,18 @@ export default function RootLayout({
     <html lang="ko" suppressHydrationWarning>
       <head>
         <meta name="google-adsense-account" content="ca-pub-6192776695660842" />
+        {/* Preconnect to external domains for faster loading */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="preconnect" href="https://www.clarity.ms" />
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="icon" href="/log.png" />
         <link rel="apple-touch-icon" href="/lol.webp" />
+        {/* Preload critical images */}
+        <link rel="preload" as="image" href="/log.png" />
+        <link rel="preload" as="image" href="/select.svg" />
         {/* hreflang tags for international SEO */}
         <link
           rel="alternate"
@@ -242,11 +255,6 @@ export default function RootLayout({
           hrefLang="x-default"
           href="https://leagueofgacha.com/"
         />
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6192776695660842"
-          crossOrigin="anonymous"
-        ></script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -279,8 +287,13 @@ export default function RootLayout({
         <LanguageProvider>
           <Navigation />
           <main>{children}</main>
-          {/* <AdBanner /> */}
         </LanguageProvider>
+        <script
+          async
+          defer
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6192776695660842"
+          crossOrigin="anonymous"
+        ></script>
       </body>
     </html>
   );
