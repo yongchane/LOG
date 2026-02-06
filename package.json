@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@vercel/og": "^0.8.6",
-    "firebase": "^12.8.0",
+    "firebase": "^12.9.0",
     "framer-motion": "^12.26.2",
     "next": "16.1.2",
     "react": "19.2.3",
